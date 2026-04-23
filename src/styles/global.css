@@ -1,0 +1,214 @@
+@import "tailwindcss";
+@import "./typography.css";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+/* =============================================================================
+   ALPINE GREEN PALETTE — Dark-first, glassmorphism 기반
+   -----------------------------------------------------------------------------
+   iPhone 13 Pro "Alpine Green" 에서 영감을 받은 팔레트.
+   각도에 따라 짙은 쑥색(#2A3D33) ↔ 은은한 그레이 세이지(#8BA190) 사이를
+   오가는 느낌을 mesh gradient 배경 + glass overlay 조합
+   ============================================================================= */
+
+/* ---- DARK (default) ---- */
+:root,
+html[data-theme="dark"] {
+  /* 바탕/전경 */
+  --background: #0c1411;
+  --background-elevated: rgba(255, 255, 255, 0.04);
+  --foreground: #e3e8e4;
+  --foreground-muted: rgba(227, 232, 228, 0.65);
+
+  /* Accent — 바른 쑥색. 링크·버튼·하이라이트에 사용 */
+  --accent: #9ec5ad;
+  --accent-deep: #4a6a5a;
+  --accent-glow: rgba(158, 197, 173, 0.35);
+
+  /* 보조 */
+  --muted: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Mesh gradient stops (Layout.astro 의 #mesh-bg 레이어가 참조) */
+  --mesh-1: rgba(74, 106, 90, 0.55); /* 짙은 쑥 */
+  --mesh-2: rgba(110, 146, 125, 0.38); /* 세이지 */
+  --mesh-3: rgba(44, 63, 55, 0.6); /* 그림자 */
+  --mesh-4: rgba(158, 197, 173, 0.18); /* 라이트 하이라이트 */
+}
+
+/* ---- LIGHT ---- */
+html[data-theme="light"] {
+  --background: #f1f4f0;
+  --background-elevated: rgba(255, 255, 255, 0.55);
+  --foreground: #162019;
+  --foreground-muted: rgba(22, 32, 25, 0.68);
+
+  --accent: #3d5f4f;
+  --accent-deep: #2a4336;
+  --accent-glow: rgba(61, 95, 79, 0.22);
+
+  --muted: rgba(20, 28, 24, 0.05);
+  --border: rgba(20, 28, 24, 0.1);
+  --border-strong: rgba(20, 28, 24, 0.18);
+
+  --mesh-1: rgba(139, 161, 144, 0.35);
+  --mesh-2: rgba(184, 202, 188, 0.45);
+  --mesh-3: rgba(90, 120, 102, 0.18);
+  --mesh-4: rgba(224, 232, 220, 0.6);
+}
+
+@theme inline {
+  --font-app: var(--font-google-sans-code);
+  --color-background: var(--background);
+  --color-background-elevated: var(--background-elevated);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-accent: var(--accent);
+  --color-accent-deep: var(--accent-deep);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-accent/75;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-strong) transparent;
+  }
+  html {
+    @apply overflow-y-scroll scroll-smooth;
+  }
+  body {
+    @apply flex min-h-svh flex-col font-app text-foreground selection:bg-accent/40 selection:text-foreground;
+    background: var(--background);
+  }
+  a,
+  button {
+    @apply outline-offset-2 outline-accent focus-visible:no-underline focus-visible:outline-2 focus-visible:outline-dashed;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+/* =============================================================================
+   MESH GRADIENT 배경 레이어 — viewport 전체 fixed, 본문 뒤 z-(-10)
+   각도(viewport 위치)에 따라 색감이 바뀌는 Alpine Green 느낌 구현.
+   ============================================================================= */
+#mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  pointer-events: none;
+  background:
+    radial-gradient(60rem 40rem at 10% 15%, var(--mesh-1) 0%, transparent 60%),
+    radial-gradient(50rem 35rem at 90% 20%, var(--mesh-4) 0%, transparent 55%),
+    radial-gradient(55rem 40rem at 80% 85%, var(--mesh-2) 0%, transparent 55%),
+    radial-gradient(45rem 30rem at 20% 90%, var(--mesh-3) 0%, transparent 60%);
+}
+
+/* 아주 느리게 흘러가는 hue 시프트 — 같은 그린 톤 안에서 오묘하게 움직임 */
+@keyframes mesh-drift {
+  0%,
+  100% {
+    filter: hue-rotate(0deg) saturate(100%);
+  }
+  50% {
+    filter: hue-rotate(-8deg) saturate(115%);
+  }
+}
+#mesh-bg {
+  animation: mesh-drift 24s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  #mesh-bg {
+    animation: none;
+  }
+}
+
+/* =============================================================================
+   UTILITIES
+   ============================================================================= */
+
+@utility max-w-app {
+  @apply max-w-4xl;
+}
+
+@utility app-layout {
+  @apply mx-auto w-full max-w-app px-4;
+}
+
+/* 글래스 패널 — 반투명 bg + blur + 1px 보더 */
+@utility glass {
+  background: var(--background-elevated);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+}
+
+/* 그라데이션 텍스트 — Alpine Green의 쑥→세이지 스펙트럼 */
+@utility text-alpine {
+  background: linear-gradient(
+    135deg,
+    #d9e8de 0%,
+    #9ec5ad 28%,
+    #6e8e7c 60%,
+    #4a6a5a 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+html[data-theme="light"] .text-alpine {
+  background: linear-gradient(135deg, #3d5f4f 0%, #2a4336 45%, #1a2e24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* 현재 네비 항목 표시 */
+.active-nav {
+  @apply font-semibold text-accent;
+  position: relative;
+}
+.active-nav::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.35rem;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* 앵커 타겟 스크롤 여유 (sticky header 고려) */
+:target {
+  scroll-margin-block: 5rem;
+}
+
+/* 사용자 정의 스크롤바 (WebKit) — 너무 튀지 않게 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent-deep);
+}

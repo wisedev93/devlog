@@ -1,0 +1,256 @@
+---
+import { Font } from "astro:assets";
+import { ClientRouter } from "astro:transitions";
+import { PUBLIC_GOOGLE_SITE_VERIFICATION } from "astro:env/client";
+import { SITE } from "@/config";
+import GoogleAnalytics from "@/components/GoogleAnalytics.astro";
+import "@/styles/global.css";
+
+type Props = {
+  title?: string;
+  author?: string;
+  profile?: string;
+  description?: string;
+  ogImage?: string;
+  canonicalURL?: string;
+  pubDatetime?: Date;
+  modDatetime?: Date | null;
+  scrollSmooth?: boolean;
+};
+
+const {
+  title = SITE.title,
+  author = SITE.author,
+  profile = SITE.profile,
+  description = SITE.desc,
+  ogImage = SITE.ogImage ? `/${SITE.ogImage}` : "/og.png",
+  canonicalURL = new URL(Astro.url.pathname, Astro.url),
+  pubDatetime,
+  modDatetime,
+  scrollSmooth = false,
+} = Astro.props;
+
+const socialImageURL = new URL(ogImage, Astro.url);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: `${title}`,
+  image: `${socialImageURL}`,
+  datePublished: `${pubDatetime?.toISOString()}`,
+  ...(modDatetime && { dateModified: modDatetime.toISOString() }),
+  author: [
+    {
+      "@type": "Person",
+      name: `${author}`,
+      ...(profile && { url: profile }),
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html
+  dir={SITE.dir}
+  lang=`${SITE.lang ?? "en"}`
+  class={`${scrollSmooth && "scroll-smooth"}`}
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+
+    <Font
+      cssVariable="--font-google-sans-code"
+      preload={[{ subset: "latin", weight: 400, style: "normal" }]}
+    />
+
+    <!-- General Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
+
+    {
+      pubDatetime && (
+        <meta
+          property="article:published_time"
+          content={pubDatetime.toISOString()}
+        />
+      )
+    }
+    {
+      modDatetime && (
+        <meta
+          property="article:modified_time"
+          content={modDatetime.toISOString()}
+        />
+      )
+    }
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={socialImageURL} />
+
+    <!-- Google JSON-LD Structured data -->
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(structuredData)}
+    />
+
+    <!-- Enable RSS feed auto-discovery  -->
+    <!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE.title}
+      href={new URL("rss.xml", Astro.site)}
+    />
+
+    <meta name="theme-color" content="" />
+
+    {
+      // If PUBLIC_GOOGLE_SITE_VERIFICATION is set in the environment variable,
+      // include google-site-verification tag in the heading
+      // Learn more: https://support.google.com/webmasters/answer/9008080#meta_tag_verification&zippy=%2Chtml-tag
+      PUBLIC_GOOGLE_SITE_VERIFICATION && (
+        <meta
+          name="google-site-verification"
+          content={PUBLIC_GOOGLE_SITE_VERIFICATION}
+        />
+      )
+    }
+
+    <ClientRouter />
+
+    <!-- Google Analytics 4 (PUBLIC_GA_ID 환경변수가 있을 때만 로드) -->
+    <GoogleAnalytics />
+
+    <script is:inline>
+      (function () {
+        const initialColorScheme = "dark"; // "light" | "dark"
+        const currentTheme = localStorage.getItem("theme");
+
+        function getPreferTheme() {
+          if (currentTheme) return currentTheme;
+          if (initialColorScheme) return initialColorScheme;
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+
+        const themeValue = getPreferTheme();
+
+        document.firstElementChild?.setAttribute("data-theme", themeValue);
+
+        window.theme = {
+          themeValue: themeValue,
+          getTheme: () => window.theme.themeValue,
+          setTheme: val => {
+            window.theme.themeValue = val;
+          },
+        };
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Alpine Green mesh gradient 배경 레이어 (global.css 의 #mesh-bg 스타일 참고) -->
+    <div id="mesh-bg" aria-hidden="true"></div>
+
+    <slot />
+
+    <script src="../scripts/theme.ts"></script>
+
+    <script>
+      function isPostDetail(p: string) {
+        return /^\/posts\/.+/.test(p) && !/^\/posts\/\d+\/?$/.test(p);
+      }
+      function isListPage(p: string) {
+        return p === "/" || /^\/posts(\/\d+)?\/?$/.test(p);
+      }
+
+      let _isViewTransition = false;
+
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+
+      document.addEventListener("astro:before-preparation", (e: Event) => {
+        const ev = e as CustomEvent & {
+          navigationType: string;
+          from: URL;
+          to: URL;
+        };
+        _isViewTransition = true;
+        const from = ev.from.pathname;
+        const to = ev.to.pathname;
+
+        sessionStorage.setItem(`scroll:${from}`, String(window.scrollY));
+
+        const isBack =
+          (isPostDetail(from) && isListPage(to)) ||
+          ev.navigationType === "traverse";
+
+        (window as any).__isBackNav = isBack;
+      });
+
+      document.addEventListener("astro:page-load", () => {
+        if (_isViewTransition && (window as any).__isBackNav) {
+          const saved = sessionStorage.getItem(`scroll:${location.pathname}`);
+          (window as any).__isBackNav = false;
+          _isViewTransition = false;
+          if (saved !== null) {
+            requestAnimationFrame(() => {
+              window.scrollTo({
+                top: parseInt(saved, 10),
+                behavior: "instant",
+              });
+            });
+          }
+          return;
+        }
+        (window as any).__isBackNav = false;
+        _isViewTransition = false;
+      });
+    </script>
+
+    <script>
+      function initCardTransitions() {
+        const links =
+          document.querySelectorAll<HTMLAnchorElement>("a[data-vtn]");
+        links.forEach(link => {
+          if (link.dataset.vtnBound === "true") return;
+          link.dataset.vtnBound = "true";
+
+          link.addEventListener("click", () => {
+            document
+              .querySelectorAll<HTMLElement>("[data-vtn-target]")
+              .forEach(el => {
+                el.style.viewTransitionName = "";
+              });
+
+            const name = link.dataset.vtn;
+            const target = link.querySelector<HTMLElement>("[data-vtn-target]");
+            if (name && target) {
+              target.style.viewTransitionName = name;
+            }
+          });
+        });
+      }
+
+      initCardTransitions();
+      document.addEventListener("astro:page-load", initCardTransitions);
+    </script>
+  </body>
+</html>

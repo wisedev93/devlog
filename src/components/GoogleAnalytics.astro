@@ -1,0 +1,48 @@
+---
+// =============================================================================
+// GOOGLE ANALYTICS 4
+// -----------------------------------------------------------------------------
+// .env 에 PUBLIC_GA_ID=G-XXXXXXXXXX 값을 넣으면 자동 로드됩니다.
+// 값이 비어 있으면 스크립트 자체가 출력되지 않음(개발 중 측정 방지).
+//
+// 측정 ID 얻는 법:
+//   1) https://analytics.google.com 접속 → 계정/속성 생성
+//   2) 데이터 스트림(웹) 추가 → 블로그 URL 입력
+//   3) 발급된 "측정 ID" (G-로 시작)를 .env 의 PUBLIC_GA_ID 로 설정
+//   4) Vercel 배포 시엔 Project Settings → Environment Variables 에 동일 추가
+//
+// astro:transitions(SPA)에서도 페이지뷰가 제대로 집계되도록 page-load 이벤트에
+// config 재호출합니다.
+// =============================================================================
+import { PUBLIC_GA_ID } from "astro:env/client";
+---
+
+{
+  PUBLIC_GA_ID && (
+    <>
+      <script
+        is:inline
+        async
+        src={`https://www.googletagmanager.com/gtag/js?id=${PUBLIC_GA_ID}`}
+      />
+      <script is:inline define:vars={{ gaId: PUBLIC_GA_ID }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          window.dataLayer.push(...res);
+        }
+        window.gtag = gtag;
+        gtag("js", new Date());
+        gtag("config", gaId, { send_page_view: false });
+
+        // SPA 페이지 전환 시 페이지뷰 수동 전송
+        document.addEventListener("astro:page-load", () => {
+          gtag("event", "page_view", {
+            page_title: document.title,
+            page_location: location.href,
+            page_path: location.pathname,
+          });
+        });
+      </script>
+    </>
+  )
+}

@@ -1,0 +1,38 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Socials from "./Socials.astro";
+
+const currentYear = new Date().getFullYear();
+
+type Props = {
+  noMarginTop?: boolean;
+} & HTMLAttributes<"footer">;
+
+const { noMarginTop = false, class: className, ...attrs } = Astro.props;
+---
+
+<footer
+  class:list={[
+    { "mt-auto": !noMarginTop },
+    "border-t border-border backdrop-blur-xl supports-backdrop-filter:bg-background/40",
+    className,
+  ]}
+  {...attrs}
+>
+  <div
+    class:list={[
+      "app-layout",
+      "py-6 sm:py-5",
+      "flex flex-col items-center justify-between gap-2 sm:flex-row-reverse",
+    ]}
+  >
+    <Socials />
+    <div
+      class="flex flex-col items-center text-sm whitespace-nowrap text-foreground-muted sm:flex-row"
+    >
+      <span>© {currentYear}</span>
+      <span class="mx-2 hidden sm:inline">·</span>
+      <span>Crafted with Astro.</span>
+    </div>
+  </div>
+</footer>

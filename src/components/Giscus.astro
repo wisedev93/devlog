@@ -1,0 +1,68 @@
+---
+// =============================================================================
+// GISCUS — GitHub Discussions 기반 댓글 위젯
+// -----------------------------------------------------------------------------
+// 동작 조건:
+//   1) 댓글을 붙일 GitHub repo가 PUBLIC
+//   2) 해당 repo에 Discussions 탭 활성화
+//   3) https://github.com/apps/giscus 에서 해당 repo에 giscus 앱 설치
+//   4) https://giscus.app 에서 repo 선택 → 카테고리 설정 → 발급된
+//      data-repo-id, data-category-id 값을 .env에 넣기
+//
+// .env (프로젝트 루트)에 아래 값을 채우면 자동으로 댓글 위젯이 표시됩니다.
+// 값이 비어 있으면 위젯은 렌더링되지 않음(본인 확인 전 안전 기본값).
+//
+// PUBLIC_GISCUS_REPO="your-username/your-repo"
+// PUBLIC_GISCUS_REPO_ID="R_kgDO..."
+// PUBLIC_GISCUS_CATEGORY="Announcements"
+// PUBLIC_GISCUS_CATEGORY_ID="DIC_kwDO..."
+// =============================================================================
+import {
+  PUBLIC_GISCUS_REPO,
+  PUBLIC_GISCUS_REPO_ID,
+  PUBLIC_GISCUS_CATEGORY,
+  PUBLIC_GISCUS_CATEGORY_ID,
+} from "astro:env/client";
+
+const enabled =
+  !!PUBLIC_GISCUS_REPO &&
+  !!PUBLIC_GISCUS_REPO_ID &&
+  !!PUBLIC_GISCUS_CATEGORY &&
+  !!PUBLIC_GISCUS_CATEGORY_ID;
+---
+
+{
+  enabled && (
+    <section
+      id="giscus-container"
+      class="mt-8"
+      aria-label="Comments"
+      data-pagefind-ignore
+    >
+      <script
+        is:inline
+        src="https://giscus.app/client.js"
+        data-repo={PUBLIC_GISCUS_REPO}
+        data-repo-id={PUBLIC_GISCUS_REPO_ID}
+        data-category={PUBLIC_GISCUS_CATEGORY}
+        data-category-id={PUBLIC_GISCUS_CATEGORY_ID}
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="ko"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      />
+    </section>
+  )
+}
+
+<!--
+  astro:transitions(SPA 전환)에서 `is:inline` 스크립트는 매 페이지 로드마다
+  재실행되므로 giscus iframe이 자동으로 다시 마운트됩니다.
+  별도의 JS 후처리는 필요하지 않음.
+-->

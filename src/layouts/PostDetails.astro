@@ -1,0 +1,264 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Tag from "@/components/Tag.astro";
+import Datetime from "@/components/Datetime.astro";
+import ShareLinks from "@/components/ShareLinks.astro";
+import BackButton from "@/components/BackButton.astro";
+import BackToTopButton from "@/components/BackToTopButton.astro";
+import Giscus from "@/components/Giscus.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
+import { getPath } from "@/utils/getPath";
+import { slugifyStr } from "@/utils/slugify";
+import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
+import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
+import { SITE } from "@/config";
+
+type Props = {
+  post: CollectionEntry<"blog">;
+  posts: CollectionEntry<"blog">[];
+};
+
+const { post, posts } = Astro.props;
+
+const {
+  title,
+  author,
+  description,
+  ogImage: initOgImage,
+  canonicalURL,
+  pubDatetime,
+  modDatetime,
+  timezone,
+  tags,
+} = post.data;
+
+const { Content, headings } = await render(post);
+
+let ogImageUrl: string | undefined;
+
+if (typeof initOgImage === "string") {
+  ogImageUrl = initOgImage;
+} else if (initOgImage?.src) {
+  ogImageUrl = initOgImage.src;
+}
+
+if (!ogImageUrl && SITE.dynamicOgImage) {
+  ogImageUrl = `${getPath(post.id, post.filePath)}/index.png`;
+}
+
+const ogImage = ogImageUrl
+  ? new URL(ogImageUrl, Astro.url.origin).href
+  : undefined;
+
+const layoutProps = {
+  title: `${title} | ${SITE.title}`,
+  author,
+  description,
+  pubDatetime,
+  modDatetime,
+  canonicalURL,
+  scrollSmooth: true,
+  ogImage,
+};
+
+/* ========== Prev/Next Posts ========== */
+
+const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
+  id,
+  title,
+  filePath,
+}));
+
+const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
+
+const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
+const nextPost =
+  currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
+---
+
+<Layout {...layoutProps}>
+  <Header />
+  <BackButton />
+  <main
+    id="main-content"
+    class:list={["app-layout pb-12", { "mt-8": !SITE.showBackButton }]}
+    data-pagefind-body
+  >
+    <TableOfContents {headings} />
+    <h1
+      transition:name={slugifyStr(title.replaceAll(".", "-"))}
+      class="inline-block text-alpine pb-1 text-3xl leading-[1.2] font-bold tracking-tight sm:text-4xl"
+    >
+      {title}
+    </h1>
+    <div class="my-3 flex items-center gap-2 text-foreground-muted">
+      <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+    </div>
+    <article
+      id="article"
+      class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"
+    >
+      <Content />
+    </article>
+
+    <hr class="my-8 border-dashed" />
+
+    <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
+      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+    </ul>
+
+    <BackToTopButton />
+
+    <ShareLinks />
+
+    <hr class="my-6 border-dashed" />
+
+    <Giscus />
+
+    <hr class="my-6 border-dashed" />
+
+    <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {
+        prevPost && (
+          <a
+            href={getPath(prevPost.id, prevPost.filePath)}
+            class="flex w-full gap-1 hover:opacity-75"
+          >
+            <IconChevronLeft class="inline-block flex-none rtl:rotate-180" />
+            <div>
+              <span>Previous Post</span>
+              <div class="text-sm text-accent/85">{prevPost.title}</div>
+            </div>
+          </a>
+        )
+      }
+      {
+        nextPost && (
+          <a
+            href={getPath(nextPost.id, nextPost.filePath)}
+            class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"
+          >
+            <div>
+              <span>Next Post</span>
+              <div class="text-sm text-accent/85">{nextPost.title}</div>
+            </div>
+            <IconChevronRight class="inline-block flex-none rtl:rotate-180" />
+          </a>
+        )
+      }
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script is:inline data-astro-rerun>
+  function createProgressBar() {
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    progressContainer.appendChild(progressBar);
+
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  if (!window["__afterSwapScrollBound"]) {
+    window["__afterSwapScrollBound"] = true;
+    document.addEventListener("astro:after-swap", () => {
+      if (!window["__isBackNav"]) {
+        window.scroll({ left: 0, top: 0, behavior: "instant" });
+      }
+    });
+  }
+</script>
