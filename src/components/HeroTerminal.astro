@@ -1,0 +1,78 @@
+---
+// =============================================================================
+// HeroTerminal — 홈 히어로 우측에 올라가는 글래스 터미널 목업
+// -----------------------------------------------------------------------------
+// - xl+ 브레이크포인트에서만 노출 (index.astro 측에서 그리드로 배치)
+// - 순수 markup + CSS. JS 의존성 없음.
+// - 커맨드/출력은 블로그 주제·정체성을 한 화면에 요약하는 용도.
+//   내용은 상황에 맞게 자유롭게 수정하세요.
+// =============================================================================
+import { SITE } from "@/config";
+
+type Line =
+  | { kind: "cmd"; text: string }
+  | { kind: "out"; text: string }
+  | { kind: "muted"; text: string }
+  | { kind: "blank" };
+
+// 화면에 렌더링할 라인. 수정해서 자기소개/관심사를 반영해도 됩니다.
+const lines: Line[] = [
+  { kind: "cmd", text: "whoami" },
+  { kind: "out", text: SITE.author.toLowerCase().replace(/\s+/g, "-") },
+  { kind: "blank" },
+  { kind: "cmd", text: "cat interests.txt" },
+  { kind: "out", text: "frontend · performance · dx" },
+  { kind: "blank" },
+  { kind: "cmd", text: "ls ./recent" },
+  { kind: "muted", text: "hello-world.md" },
+  { kind: "muted", text: "ideas/" },
+  { kind: "blank" },
+  { kind: "cmd", text: "echo $STATUS" },
+  { kind: "out", text: "open to new opportunities ✦" },
+];
+---
+
+<div
+  class="relative rounded-2xl border border-border bg-background-elevated p-4 font-app shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:p-5"
+  aria-hidden="true"
+>
+  {/* macOS traffic lights */}
+  <div class="flex items-center gap-1.5 border-b border-border pb-3">
+    <span class="size-2.5 rounded-full bg-[#ff5f57]/80"></span>
+    <span class="size-2.5 rounded-full bg-[#febc2e]/80"></span>
+    <span class="size-2.5 rounded-full bg-[#28c840]/80"></span>
+    <span
+      class="ml-3 truncate text-xs tracking-wide text-foreground-muted select-none"
+    >
+      ~/devlog — zsh
+    </span>
+  </div>
+
+  {/* Terminal body */}
+  <pre
+    class="mt-3 overflow-hidden text-[13px] leading-relaxed whitespace-pre-wrap text-foreground">
+    {
+      lines.map(line => {
+        if (line.kind === "blank") return "\n";
+        if (line.kind === "cmd") {
+          return (
+            <span class="block">
+              <span class="text-accent">➜</span>{" "}
+              <span class="text-foreground-muted">~</span>{" "}
+              <span class="text-foreground">{line.text}</span>
+            </span>
+          );
+        }
+        if (line.kind === "muted") {
+          return <span class="block text-foreground-muted">{line.text}</span>;
+        }
+        return <span class="block text-accent">{line.text}</span>;
+      })
+    }
+    <span class="inline-block">
+      <span class="text-accent">➜</span>{" "}
+      <span class="text-foreground-muted">~</span>{" "}
+      <span class="inline-block h-[1em] w-[0.6ch] translate-y-[2px] bg-accent align-middle animate-pulse" />
+    </span>
+  </pre>
+</div>

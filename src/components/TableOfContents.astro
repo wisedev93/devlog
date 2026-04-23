@@ -1,0 +1,145 @@
+---
+// =============================================================================
+// TableOfContents — 포스트 목차 사이드바 (2xl 이상 breakpoint에서만 표시)
+// -----------------------------------------------------------------------------
+// - 역할: 포스트의 h2/h3 목록을 우측 사이드바에 고정(fixed)해서 표시
+// - 스크롤 스파이: 현재 화면에 보이는 섹션의 링크를 하이라이트
+// - 클릭 이동: 링크 클릭 시 해당 섹션으로 smooth scroll
+// - 반응형: 2xl(1536px) 미만에서는 숨김. 본문 레이아웃을 건드리지 않음.
+// - 오버플로우: 긴 헤딩 텍스트는 truncate + ...로 처리 (hover 시 title로 전체 표시)
+// - SPA 호환: astro:page-load 이벤트에 재초기화
+// =============================================================================
+import type { MarkdownHeading } from "astro";
+
+type Props = {
+  headings: MarkdownHeading[];
+};
+
+const { headings } = Astro.props;
+
+// h2/h3만 노출. h4 이상은 세로로 길어지는 걸 막기 위해 생략.
+const tocItems = headings.filter(h => h.depth === 2 || h.depth === 3);
+---
+
+{
+  tocItems.length > 0 && (
+    <aside
+      id="toc-sidebar"
+      aria-label="Table of contents"
+      data-pagefind-ignore
+      class="pointer-events-none fixed top-24 left-[calc(50%+29rem)] z-10 hidden max-h-[calc(100vh-8rem)] w-64 text-sm 2xl:block"
+    >
+      <div
+        class="pointer-events-auto overflow-x-hidden overflow-y-auto rounded-xl border border-border bg-background-elevated p-4 backdrop-blur-xl"
+        style="max-height: calc(100vh - 8rem);"
+      >
+        <div class="mb-3 flex items-center gap-2">
+          <span class="size-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]" />
+          <p class="text-xs font-semibold tracking-[0.2em] text-foreground-muted uppercase">
+            On this page
+          </p>
+        </div>
+        <ul class="space-y-0.5 border-l border-border">
+          {tocItems.map(h => (
+            <li class:list={[h.depth === 3 && "pl-3"]}>
+              <a
+                href={`#${h.slug}`}
+                data-toc-link={h.slug}
+                title={h.text}
+                class="toc-link -ml-px block truncate border-l border-transparent py-1 pl-3 leading-snug text-foreground-muted transition-colors hover:text-accent"
+              >
+                {h.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  )
+}
+
+<style>
+  /* 현재 읽고 있는 섹션 하이라이트 */
+  :global(.toc-link[data-active="true"]) {
+    color: var(--color-accent);
+    border-left-color: var(--color-accent);
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  function initTOC() {
+    const links = document.querySelectorAll<HTMLAnchorElement>(".toc-link");
+    if (links.length === 0) return;
+
+    const linkBySlug = new Map<string, HTMLAnchorElement>();
+    links.forEach(link => {
+      const slug = link.dataset.tocLink;
+      if (slug) linkBySlug.set(slug, link);
+    });
+
+    const headings = Array.from(
+      document.querySelectorAll<HTMLHeadingElement>(
+        "#article h2[id], #article h3[id]"
+      )
+    );
+    if (headings.length === 0) return;
+
+    let activeSlug: string | null = null;
+
+    const setActive = (slug: string | null) => {
+      if (slug === activeSlug) return;
+      if (activeSlug) {
+        linkBySlug.get(activeSlug)?.removeAttribute("data-active");
+      }
+      if (slug) {
+        linkBySlug.get(slug)?.setAttribute("data-active", "true");
+      }
+      activeSlug = slug;
+    };
+
+    const visible = new Set<string>();
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const id = entry.target.id;
+          if (!id) return;
+          if (entry.isIntersecting) {
+            visible.add(id);
+          } else {
+            visible.delete(id);
+          }
+        });
+
+        if (visible.size > 0) {
+          const firstVisible = headings.find(h => visible.has(h.id));
+          setActive(firstVisible?.id ?? null);
+        } else {
+          const scrollY = window.scrollY + 100;
+          let lastPassed: string | null = null;
+          for (const h of headings) {
+            if (h.offsetTop <= scrollY) lastPassed = h.id;
+            else break;
+          }
+          setActive(lastPassed);
+        }
+      },
+      {
+        rootMargin: "-80px 0px -80% 0px",
+        threshold: 0,
+      }
+    );
+
+    headings.forEach(h => observer.observe(h));
+
+    const cleanup = () => {
+      observer.disconnect();
+      document.removeEventListener("astro:before-swap", cleanup);
+    };
+    document.addEventListener("astro:before-swap", cleanup);
+  }
+
+  initTOC();
+  document.addEventListener("astro:page-load", initTOC);
+</script>

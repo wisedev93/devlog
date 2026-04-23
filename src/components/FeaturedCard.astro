@@ -1,0 +1,65 @@
+---
+// =============================================================================
+// FeaturedCard — 홈 포스트 섹션 최상단의 와이드 Featured 카드
+// -----------------------------------------------------------------------------
+// Card.astro 와 비슷한 데이터를 받지만, 타이포·패딩이 더 크고
+// "Featured" 뱃지와 Read more CTA가 붙습니다.
+// =============================================================================
+import type { CollectionEntry } from "astro:content";
+import { slugifyStr } from "@/utils/slugify";
+import { getPath } from "@/utils/getPath";
+import Datetime from "./Datetime.astro";
+import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
+
+type Props = CollectionEntry<"blog">;
+
+const { id, data, filePath } = Astro.props;
+const { title, description, ...props } = data;
+
+// View Transition 이름은 클릭된 카드에만 부여 (Card.astro 와 동일 전략)
+const vtn = slugifyStr(title.replaceAll(".", "-"));
+---
+
+<article class="group relative my-3">
+  <a
+    href={getPath(id, filePath)}
+    data-vtn={vtn}
+    class="block overflow-hidden rounded-3xl border border-border bg-background-elevated p-6 backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-[0_12px_40px_rgba(0,0,0,0.3),0_0_0_1px_var(--accent-glow)] focus-visible:no-underline sm:p-8"
+  >
+    <div class="flex items-center gap-2">
+      <span
+        class="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.2em] text-accent uppercase"
+      >
+        <span
+          class="size-1 rounded-full bg-accent shadow-[0_0_6px_var(--accent-glow)]"
+        ></span>
+        Featured
+      </span>
+      <div class="text-foreground-muted">
+        <Datetime {...props} size="sm" />
+      </div>
+    </div>
+
+    <h3
+      data-vtn-target
+      class="mt-4 text-2xl leading-tight font-bold tracking-tight text-foreground transition-colors group-hover:text-accent sm:text-3xl"
+    >
+      {title}
+    </h3>
+
+    <p
+      class="mt-3 line-clamp-3 text-base leading-relaxed text-foreground-muted sm:text-lg"
+    >
+      {description}
+    </p>
+
+    <div
+      class="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-accent"
+    >
+      Read more
+      <IconArrowRight
+        class="size-4 transition-transform group-hover:translate-x-0.5 rtl:-rotate-180"
+      />
+    </div>
+  </a>
+</article>

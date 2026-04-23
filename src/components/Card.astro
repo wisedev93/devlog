@@ -1,0 +1,35 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { slugifyStr } from "@/utils/slugify";
+import { getPath } from "@/utils/getPath";
+import Datetime from "./Datetime.astro";
+
+type Props = {
+  variant?: "h2" | "h3";
+} & CollectionEntry<"blog">;
+
+const { variant: Heading = "h2", id, data, filePath } = Astro.props;
+
+const { title, description, ...props } = data;
+
+const vtn = slugifyStr(title.replaceAll(".", "-"));
+---
+
+<li class="group relative my-3">
+  <a
+    href={getPath(id, filePath)}
+    data-vtn={vtn}
+    class="block rounded-2xl border border-border bg-background-elevated p-5 backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-[0_8px_32px_rgba(0,0,0,0.25),0_0_0_1px_var(--accent-glow)] focus-visible:no-underline sm:p-6"
+  >
+    <Heading
+      data-vtn-target
+      class="text-lg font-semibold text-foreground transition-colors group-hover:text-accent sm:text-xl"
+    >
+      {title}
+    </Heading>
+    <div class="mt-1">
+      <Datetime {...props} />
+    </div>
+    <p class="mt-3 text-foreground-muted">{description}</p>
+  </a>
+</li>
