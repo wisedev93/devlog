@@ -8,7 +8,7 @@
 
 ## Use as a template
 
-이 블로그의 세팅을 그대로 쓰고 싶다면 `template` 브랜치를 받으세요:
+이 블로그의 세팅을 그대로 쓰고 싶다면 `template` 브랜치를 받으세요.
 
 ```bash
 git clone -b template --single-branch https://github.com/wisedev93/devlog.git my-blog

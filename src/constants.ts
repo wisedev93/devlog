@@ -23,22 +23,19 @@ interface Social {
 export const SOCIALS: Social[] = [
   {
     name: "GitHub",
-    // TODO[PLACEHOLDER]: 본인 GitHub 프로필 URL
-    href: "https://github.com/your-username",
+    href: "https://github.com/wisedev93",
     linkTitle: `${SITE.title} on GitHub`,
     icon: IconGitHub,
   },
   {
     name: "LinkedIn",
-    // TODO[PLACEHOLDER]: 본인 LinkedIn URL. 안 쓰면 이 객체 통째로 삭제.
-    href: "https://www.linkedin.com/in/your-username/",
+    href: "https://www.linkedin.com/in/jaehyun-um-59833227b/",
     linkTitle: `${SITE.title} on LinkedIn`,
     icon: IconLinkedin,
   },
   {
     name: "Mail",
-    // TODO[PLACEHOLDER]: 본인 이메일
-    href: "mailto:you@example.com",
+    href: "mailto:wisedev93@gmail.com",
     linkTitle: `Send an email to ${SITE.title}`,
     icon: IconMail,
   },
