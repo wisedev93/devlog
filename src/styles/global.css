@@ -69,6 +69,9 @@ html[data-theme="light"] {
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
+
+  /* TOC 사이드바가 max-w-6xl 본문 바깥에 표시될 수 있는 최소 너비 */
+  --breakpoint-3xl: 1600px;
 }
 
 @layer base {
@@ -134,7 +137,7 @@ html[data-theme="light"] {
    ============================================================================= */
 
 @utility max-w-app {
-  @apply max-w-4xl;
+  @apply max-w-6xl;
 }
 
 @utility app-layout {

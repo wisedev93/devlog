@@ -20,11 +20,9 @@ const sortedPosts = getSortedPosts(posts);
 const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
 const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 
-// 최상단 와이드 카드용: 첫 Featured 하나를 추출, 나머지는 일반 리스트에 붙임
 const [topFeatured, ...restFeatured] = featuredPosts;
 const gridPosts = [...restFeatured, ...recentPosts].slice(0, SITE.postPerIndex);
 
-// TODO[PLACEHOLDER]: "What I write about" 카드에 쓸 주제. 자유롭게 편집.
 const topics = [
   {
     label: "Frontend",
@@ -32,19 +30,14 @@ const topics = [
     icon: "⚛",
   },
   {
-    label: "Performance",
-    desc: "번들·렌더링·Core Web Vitals",
-    icon: "⚡",
-  },
-  {
-    label: "기타",
-    desc: "등등",
+    label: "Backend",
+    desc: "FastApi · python",
     icon: "◎",
   },
   {
-    label: "이모티콘",
-    desc: "😇",
-    icon: "😆",
+    label: "Performance",
+    desc: "번들·렌더링·Core Web Vitals",
+    icon: "⚡",
   },
 ];
 ---

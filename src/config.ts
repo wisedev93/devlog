@@ -10,17 +10,13 @@ export const SITE = {
   //   로컬 개발 중엔 Vercel 기본 도메인(e.g. https://my-blog.vercel.app/) 써도 됨
   website: "https://example.com/",
 
-  // TODO[PLACEHOLDER]: 저자 표시명 (푸터, OG 태그에 사용)
-  author: "Your Name",
+  author: "jaehyun um",
 
-  // TODO[PLACEHOLDER]: 외부 프로필 URL (개인 사이트, GitHub 등). 없으면 홈 URL.
-  profile: "https://example.com/",
+  profile: "https://github.com/wisedev93",
 
-  // TODO[PLACEHOLDER]: 한 줄 소개 (SEO description, OG description)
-  desc: "블로그 소개 입니다.",
+  desc: "코드보다 오래 남는 건 그 코드를 쓰게 만든 판단과 이야기라고 믿어, 일하며 배운 것, 읽으며 떠오른 것, 가끔의 회고, 그리고 그 사이에 남은 생각을 기록합니다.",
 
-  // TODO[PLACEHOLDER]: 브라우저 탭 / OG에 노출되는 사이트 타이틀
-  title: "Dev Blog",
+  title: "Devlog",
 
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
@@ -33,6 +29,6 @@ export const SITE = {
 
   dynamicOgImage: true,
   dir: "ltr",
-  lang: "ko", // 한국어 블로그
+  lang: "ko",
   timezone: "Asia/Seoul",
 } as const;
