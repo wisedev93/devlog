@@ -6,11 +6,9 @@
 // 전부 자동으로 맞춰집니다.
 // =============================================================================
 export const SITE = {
-  // TODO[PLACEHOLDER]: 배포 도메인으로 교체 (https://로 끝, 슬래시 포함)
-  //   로컬 개발 중엔 Vercel 기본 도메인(e.g. https://my-blog.vercel.app/) 써도 됨
-  website: "https://example.com/",
+  website: "https://wise93devlog.vercel.app/",
 
-  author: "jaehyun um",
+  author: "seulgi um",
 
   profile: "https://github.com/wisedev93",
 

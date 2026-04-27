@@ -1,6 +1,6 @@
 ---
 author: wisedev93
-pubDatetime: 2026-04-23T09:00:00+09:00
+pubDatetime: 2026-04-27T11:40:00+09:00
 title: "Hello, world — 블로그를 개설했습니다. 그리고 Astro를 고른 이유"
 featured: true
 draft: false
@@ -86,7 +86,7 @@ starter는 [`astro-paper`](https://github.com/satnaing/astro-paper)를 썼습니
 - 거대해진 컴포넌트를 **리팩토링**한 실제 PR 이야기 — "이렇게 하면 좋다"가 아니라 "이렇게 해서 이런 문제가 생겼고 이렇게 해결했다"
 - Core Web Vitals를 실무에서 개선한 케이스 — CLS, LCP를 실제 어떤 지표로 보고 어떤 코드 변경이 가장 효과 있었는지
 - **디자인 시스템을 처음 구축**할 때 자주 빠지는 함정들
-- 5년차로서 **팀 리뷰 문화를 바꿔본 시도들**
+- 개발자로서 **팀 리뷰 문화를 바꿔본 시도들**
 
 목표는 단순합니다. *"내가 읽었을 때 도움이 됐을 글"*을 쓰는 것.
 
