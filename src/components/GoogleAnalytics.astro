@@ -28,7 +28,8 @@ import { PUBLIC_GA_ID } from "astro:env/client";
       <script is:inline define:vars={{ gaId: PUBLIC_GA_ID }}>
         window.dataLayer = window.dataLayer || [];
         function gtag() {
-          window.dataLayer.push(...res);
+          // eslint-disable-next-line prefer-rest-params
+          window.dataLayer.push(arguments);
         }
         window.gtag = gtag;
         gtag("js", new Date());
