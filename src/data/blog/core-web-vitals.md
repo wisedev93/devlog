@@ -10,7 +10,7 @@ tags:
   - lcp
   - lighthouse
   - Core Web Vitals
-description:
+description: ""
 ---
 
 ## Table of contents
