@@ -2,6 +2,30 @@
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
+
+/**
+ * BackButton — 모든 상세 페이지(PostDetails / LabLayout 등)가 공유한다.
+ *
+ * 동작:
+ *  - 클릭 시 같은 origin 의 referrer 가 있으면 history.back() 으로 직전 페이지로.
+ *    SPA navigation 흐름(예: /posts → /posts/post1 → /labs/lab1)에서
+ *    각 단계가 자연스럽게 그 직전으로 거꾸로 돌아간다.
+ *  - 새 탭/외부 referrer/직접 진입 등 history 가 의미 없을 때는 a 태그의
+ *    기본 동작으로 fallback. 이 fallback URL 은 부모 레이아웃이 props 로 명시.
+ *
+ * 자기 URL 을 sessionStorage 에 덮어쓰지 않는다 — 그래야 새로고침 시 두 번
+ * 호출되어도 idempotent 하고, 한 페이지에 재진입할 때 BackButton 이 자기
+ * 자신을 가리키는 순환이 발생하지 않는다.
+ *
+ * sessionStorage["backUrl"] 은 list 페이지(Main.astro, labs/index.astro)가
+ * 자기 URL 로 set 하는 값으로, 새 탭 진입 등에서 추가 fallback 역할을 한다.
+ */
+interface Props {
+  /** 새 탭/외부 referrer 진입 시 BackButton 이 가리킬 fallback URL. */
+  fallback?: string;
+}
+
+const { fallback = "/" } = Astro.props;
 ---
 
 {
@@ -9,7 +33,7 @@ import { SITE } from "@/config";
     <div class="app-layout flex items-center justify-start">
       <LinkButton
         id="back-button"
-        href="/"
+        href={fallback}
         class="focus-outline -ms-2 mt-8 mb-2 hover:text-foreground/75"
       >
         <IconChevronLeft class="inline-block size-6 rtl:rotate-180" />
@@ -20,18 +44,41 @@ import { SITE } from "@/config";
 }
 
 <script>
-  /* Update Search Praam */
-  function updateGoBackUrl() {
-    const backButton: HTMLAnchorElement | null =
-      document.querySelector("#back-button");
-
-    const backUrl = sessionStorage.getItem("backUrl");
-
-    if (backUrl && backButton) {
-      backButton.href = backUrl;
+  function isInternalReferrer() {
+    if (!document.referrer) return false;
+    try {
+      return new URL(document.referrer).host === location.host;
+    } catch {
+      return false;
     }
   }
 
-  document.addEventListener("astro:page-load", updateGoBackUrl);
-  updateGoBackUrl();
+  function syncBackButton() {
+    const backButton: HTMLAnchorElement | null =
+      document.querySelector("#back-button");
+    if (!backButton) return;
+
+    // fallback href 보강 — list 페이지가 마지막으로 set 한 backUrl 이 있으면
+    // a 태그 fallback 으로 그 값을 쓴다 (history.back 이 안 통하는 새 탭 등).
+    const storedBackUrl = sessionStorage.getItem("backUrl");
+    if (storedBackUrl) {
+      backButton.href = storedBackUrl;
+    }
+
+    // 클릭 시 같은 origin referrer 가 있을 때만 history.back().
+    // dataset 가드로 중복 binding 방지 (astro:page-load + inline 호출 두 번).
+    if (backButton.dataset.backBound !== "true") {
+      backButton.dataset.backBound = "true";
+      backButton.addEventListener("click", e => {
+        if (isInternalReferrer()) {
+          e.preventDefault();
+          window.history.back();
+        }
+        // 그 외엔 a 태그 기본 동작(href fallback) 으로 진행.
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", syncBackButton);
+  syncBackButton();
 </script>

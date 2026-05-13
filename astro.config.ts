@@ -1,6 +1,7 @@
 import { defineConfig, envField, fontProviders } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
+import preact from "@astrojs/preact";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import {
@@ -18,6 +19,9 @@ export default defineConfig({
     sitemap({
       filter: page => SITE.showArchives || !page.endsWith("/archives"),
     }),
+    // Labs 페이지의 인터랙티브 island 용. tsconfig 의 글로벌 jsxImportSource 를
+    // 건드리지 않기 위해 island 컴포넌트 안에서 파일별 pragma 로 preact JSX 를 지정.
+    preact(),
   ],
   markdown: {
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
