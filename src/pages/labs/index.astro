@@ -1,12 +1,12 @@
 ---
 /**
  * /labs — 모든 lab 의 카드 그리드.
- * 새 lab 을 추가하려면 src/labs/labsMeta.ts에 항목 한 줄만 더하면 자동 노출
+ * 새 lab 을 추가하려면 src/data/labsMeta.ts 에 항목 한 줄만 더하면 자동 노출
  */
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import { getSortedLabs } from "@/pages/labs/labsMeta";
+import { getSortedLabs } from "@/data/labsMeta";
 import dayjs from "dayjs";
 
 const labs = getSortedLabs();
@@ -32,12 +32,14 @@ const STATUS_STYLE: Record<
   description="글에서 다룬 문제를 직접 만져볼 수 있는 작은 시연들. 각 lab은 한 글의 핵심 메시지를 인터랙티브 island로 재현합니다."
 >
   <Header />
-  {/*
+  {
+    /*
     표준 list 페이지(posts/tags/archives) 가 Main.astro 를 거쳐 자동으로
     sessionStorage["backUrl"] 을 갱신하는 패턴을 그대로 따라가도록,
     data-backUrl 속성 + astro:page-load 스크립트를 함께 둔다.
     이렇게 해야 lab 상세에서 <BackButton /> 이 /labs 로 돌아오게 됨.
-  */}
+  */
+  }
   <main id="main-content" data-backUrl="/labs" class="app-layout">
     {/* Hero */}
     <section
