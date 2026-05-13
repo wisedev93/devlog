@@ -5,8 +5,7 @@
  */
 import LabLayout from "@/layouts/LabLayout.astro";
 import SilentFailureLab from "@/islands/SilentFailureLab";
-import { getLab } from "@/pages/labs/labsMeta";
-
+import { getLab } from "@/data/labsMeta";
 const lab = getLab("silent-form-validation");
 if (!lab) {
   return Astro.redirect("/labs");
