@@ -1,0 +1,95 @@
+---
+/**
+ * Labs 개별 페이지 공통 레이아웃.
+ * 모든 lab 페이지는 이 레이아웃으로 감싸고 인터랙티브 island 만 slot 으로 넣습니다.
+ */
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import dayjs from "dayjs";
+import BackButton from "@/components/BackButton.astro";
+
+interface Props {
+  title: string;
+  summary: string;
+  tags?: string[];
+  post?: string;
+  pubDate?: Date;
+}
+
+const { title, summary, tags = [], post, pubDate } = Astro.props;
+const dateLabel = pubDate ? dayjs(pubDate).format("YYYY.MM.DD") : null;
+---
+
+<Layout title={`${title} | Labs`} description={summary} pubDatetime={pubDate}>
+  <Header />
+  <BackButton fallback="/labs" />
+  <main id="main-content" class="app-layout">
+    <header class="border-b border-border pt-4 pb-10 sm:pt-6 sm:pb-12">
+      <div class="flex flex-col gap-3">
+        <div
+          class="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background-elevated px-3 py-1 text-xs text-foreground-muted backdrop-blur-md"
+        >
+          <span
+            class="size-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]"
+          ></span>
+          interactive · lab
+        </div>
+
+        <h1
+          class="text-alpine pb-1 text-4xl leading-[1.15] font-bold tracking-tight sm:text-5xl"
+        >
+          {title}
+        </h1>
+
+        <p class="mt-2 max-w-3xl text-base text-foreground-muted sm:text-lg">
+          {summary}
+        </p>
+
+        {
+          (tags.length > 0 || dateLabel) && (
+            <div class="mt-4 flex flex-wrap items-center gap-3 text-xs text-foreground-muted">
+              {tags.length > 0 && (
+                <ul class="flex flex-wrap gap-1.5">
+                  {tags.map(t => (
+                    <li class="rounded-full border border-border bg-background-elevated px-2.5 py-0.5 text-foreground-muted">
+                      #{t}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {dateLabel && (
+                <span class="font-app">
+                  <span class="text-foreground-muted/70">published</span>{" "}
+                  {dateLabel}
+                </span>
+              )}
+            </div>
+          )
+        }
+
+        {
+          post && (
+            <a
+              href={post}
+              class="group mt-5 inline-flex w-fit items-center gap-1.5 rounded-full border border-border bg-background-elevated px-4 py-2 text-xs font-medium text-foreground backdrop-blur-md transition-colors hover:border-accent hover:text-accent"
+            >
+              관련 글 읽기
+              <span
+                aria-hidden
+                class="transition-transform group-hover:translate-x-0.5"
+              >
+                ➡️
+              </span>
+            </a>
+          )
+        }
+      </div>
+    </header>
+
+    <section class="py-8 sm:py-10">
+      <slot />
+    </section>
+  </main>
+  <Footer />
+</Layout>

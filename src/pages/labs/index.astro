@@ -1,0 +1,210 @@
+---
+/**
+ * /labs — 모든 lab 의 카드 그리드.
+ * 새 lab 을 추가하려면 src/labs/labsMeta.ts에 항목 한 줄만 더하면 자동 노출
+ */
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { getSortedLabs } from "@/pages/labs/labsMeta";
+import dayjs from "dayjs";
+
+const labs = getSortedLabs();
+
+const STATUS_STYLE: Record<
+  NonNullable<(typeof labs)[number]["status"]>,
+  { label: string; cls: string }
+> = {
+  live: { label: "live", cls: "bg-accent text-background" },
+  wip: {
+    label: "wip",
+    cls: "bg-amber-400/20 text-amber-300 border border-amber-400/40",
+  },
+  draft: {
+    label: "draft",
+    cls: "bg-foreground/10 text-foreground-muted border border-border",
+  },
+};
+---
+
+<Layout
+  title={`Labs | Devlog`}
+  description="글에서 다룬 문제를 직접 만져볼 수 있는 작은 시연들. 각 lab은 한 글의 핵심 메시지를 인터랙티브 island로 재현합니다."
+>
+  <Header />
+  {/*
+    표준 list 페이지(posts/tags/archives) 가 Main.astro 를 거쳐 자동으로
+    sessionStorage["backUrl"] 을 갱신하는 패턴을 그대로 따라가도록,
+    data-backUrl 속성 + astro:page-load 스크립트를 함께 둔다.
+    이렇게 해야 lab 상세에서 <BackButton /> 이 /labs 로 돌아오게 됨.
+  */}
+  <main id="main-content" data-backUrl="/labs" class="app-layout">
+    {/* Hero */}
+    <section
+      class="grid items-end gap-6 border-b border-border pt-14 pb-10 sm:pt-20 sm:pb-12"
+    >
+      <div class="flex flex-col gap-3">
+        <div
+          class="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background-elevated px-3 py-1 text-xs text-foreground-muted backdrop-blur-md"
+        >
+          <span
+            class="size-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]"
+          ></span>
+          interactive · lab
+        </div>
+        <h1
+          class="text-alpine pb-1 text-4xl leading-[1.15] font-bold tracking-tight sm:text-5xl"
+        >
+          Labs
+        </h1>
+        <p class="mt-2 max-w-3xl text-base text-foreground-muted sm:text-lg">
+          글로만 설명하기 아까운 것들을 두는 자리. 각 lab은 글 하나의 핵심
+          메시지를 인터랙티브 island로 재현해서, 코드 스니펫이 아니라 직접
+          만져보며 확인할 수 있게 합니다.
+        </p>
+        <span class="text-sm text-foreground-muted">
+          가끔은 아주 작은 프로젝트도 있을 수 있겠죠?
+        </span>
+      </div>
+    </section>
+
+    {/* Lab 그리드 */}
+    <section class="pt-10 pb-16">
+      <div class="mb-6 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span
+            class="size-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]"
+          ></span>
+          <h2
+            class="text-xs font-semibold tracking-[0.2em] text-foreground-muted uppercase"
+          >
+            All labs ({labs.length})
+          </h2>
+        </div>
+      </div>
+
+      {
+        labs.length === 0 ? (
+          <p class="rounded-2xl border border-border bg-background-elevated p-6 text-sm text-foreground-muted">
+            아직 공개된 lab이 없어요. 곧 첫 번째 lab이 올라옵니다.
+          </p>
+        ) : (
+          <ul class="grid gap-4 sm:grid-cols-2">
+            {labs.map(lab => {
+              const status = lab.status ?? "live";
+              const statusStyle = STATUS_STYLE[status];
+              const dateLabel = dayjs(lab.pubDate).format("YYYY.MM.DD");
+              const isLive = status === "live";
+              return (
+                <li>
+                  {/*
+                    카드 컨테이너 — relative 로 두고, 안쪽에 두 가지 액션을 둠.
+                    1) stretched link (absolute inset-0): 카드 전체를 클릭하면 lab 상세로 이동
+                    2) "관련 글 읽기" pill button: 카드 위에 z-10 으로 띄워 카드 클릭과 분리
+                  */}
+                  <div
+                    class:list={[
+                      "group relative flex h-full flex-col gap-4 rounded-2xl p-6 glass transition-all",
+                      isLive
+                        ? "hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
+                        : "opacity-70",
+                    ]}
+                  >
+                    <header class="flex items-start justify-between gap-3">
+                      <span
+                        class:list={[
+                          "inline-flex items-center gap-2 rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-[0.2em] uppercase",
+                          statusStyle.cls,
+                        ]}
+                      >
+                        <span
+                          class:list={[
+                            "size-1.5 rounded-full",
+                            isLive ? "animate-pulse bg-red-600" : "bg-current",
+                          ]}
+                        />
+
+                        {statusStyle.label}
+                      </span>
+                      <span class="font-app text-[11px] tracking-wider text-foreground-muted">
+                        {dateLabel}
+                      </span>
+                    </header>
+
+                    <h3
+                      class:list={[
+                        "text-lg font-semibold text-foreground transition-colors",
+                        isLive ? "group-hover:text-accent" : "",
+                      ]}
+                    >
+                      {lab.title}
+                    </h3>
+
+                    <p class="text-sm leading-relaxed text-foreground-muted">
+                      {lab.summary}
+                    </p>
+
+                    {lab.tags.length > 0 && (
+                      <ul class="flex flex-wrap gap-1.5 pt-2">
+                        {lab.tags.map(t => (
+                          <li class="rounded-full border border-border bg-background/40 px-2 py-0.5 text-[11px] text-foreground-muted">
+                            #{t}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* 액션 영역 — Open lab(stretched link) + 관련 글 읽기(별도 링크) */}
+                    {isLive && (
+                      <div class="mt-auto flex items-center justify-between gap-3 pt-2">
+                        <a
+                          href={`/labs/${lab.slug}`}
+                          class="inline-flex items-center gap-1 text-xs font-semibold text-accent before:absolute before:inset-0 before:rounded-2xl before:content-['']"
+                          aria-label={`${lab.title} lab 열기`}
+                        >
+                          Open lab
+                          <span
+                            aria-hidden
+                            class="transition-transform group-hover:translate-x-0.5"
+                          >
+                            ➡️
+                          </span>
+                        </a>
+                        {lab.post && (
+                          <a
+                            href={lab.post}
+                            class="relative z-10 inline-flex items-center gap-1.5 rounded-full border border-border bg-background-elevated px-3 py-1.5 text-[11px] font-medium text-foreground-muted backdrop-blur-md transition-colors hover:border-accent hover:text-accent"
+                          >
+                            관련 글 읽기
+                            <span aria-hidden>➡️</span>
+                          </a>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )
+      }
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  /*
+    Main.astro 와 동일한 패턴 — labs 인덱스에 진입한 시점의 pathname 을
+    sessionStorage 에 저장해서 이후 lab 상세에서 BackButton 이 이 곳으로
+    돌아오게 한다. astro:page-load 는 view transition 후에도 다시 발생.
+  */
+  document.addEventListener("astro:page-load", () => {
+    const mainContent: HTMLElement | null =
+      document.querySelector("#main-content");
+    const backUrl = mainContent?.dataset?.backurl;
+    if (backUrl) {
+      sessionStorage.setItem("backUrl", backUrl);
+    }
+  });
+</script>
