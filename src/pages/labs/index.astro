@@ -35,15 +35,7 @@ const STATUS_STYLE: Record<
 >
   <Header />
   <Breadcrumb />
-  {
-    /*
-    표준 list 페이지(posts/tags/archives) 가 Main.astro 를 거쳐 자동으로
-    sessionStorage["backUrl"] 을 갱신하는 패턴을 그대로 따라가도록,
-    data-backUrl 속성 + astro:page-load 스크립트를 함께 둔다.
-    이렇게 해야 lab 상세에서 <BackButton /> 이 /labs 로 돌아오게 됨.
-  */
-  }
-  <main id="main-content" data-backUrl="/labs" class="app-layout">
+  <main id="main-content" class="app-layout">
     {/* Hero */}
     <section class="grid items-end gap-6 border-b border-border pb-3 sm:pb-6">
       <div class="flex flex-col gap-3">
@@ -196,18 +188,3 @@ const STATUS_STYLE: Record<
   <Footer />
 </Layout>
 
-<script>
-  /*
-    Main.astro 와 동일한 패턴 — labs 인덱스에 진입한 시점의 pathname 을
-    sessionStorage 에 저장해서 이후 lab 상세에서 BackButton 이 이 곳으로
-    돌아오게 한다. astro:page-load 는 view transition 후에도 다시 발생.
-  */
-  document.addEventListener("astro:page-load", () => {
-    const mainContent: HTMLElement | null =
-      document.querySelector("#main-content");
-    const backUrl = mainContent?.dataset?.backurl;
-    if (backUrl) {
-      sessionStorage.setItem("backUrl", backUrl);
-    }
-  });
-</script>
