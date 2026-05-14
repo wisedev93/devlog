@@ -27,7 +27,7 @@ export const labs: LabMeta[] = [
     slug: "silent-form-validation",
     title: "Silent form failure",
     summary:
-      "UI · Schema · DB 세 레이어가 같은 데이터를 다루는데 각자의 룰로 진화하면 어떤 일이 벌어지는지, '기타' 칩 하나로 재현해보는 인터랙티브 시연.",
+      "UI · Schema · DB 세 레이어가 같은 데이터를 다루는데 각자의 룰로 진화하면 어떤 일이 벌어지는지, '기타' 칩 하나로 재현해보는 인터랙티브",
     tags: ["form", "zod", "validation"],
     post: "/posts/silent-form-validation",
     pubDate: new Date("2026-05-14T10:00:00+09:00"),
