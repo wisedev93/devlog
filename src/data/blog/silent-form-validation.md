@@ -1,6 +1,6 @@
 ---
 author: seulgi um
-pubDatetime: 2026-05-14T10:00:00+09:00
+pubDatetime: 2026-05-13T12:00:00+09:00
 title: "폼 검증이 조용히 막힐 때 — 스키마와 UI 사이의 어긋남"
 featured: true
 draft: false

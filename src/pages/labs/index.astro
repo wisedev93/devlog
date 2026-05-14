@@ -6,7 +6,9 @@
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
 import { getSortedLabs } from "@/data/labsMeta";
+import { SITE } from "@/config";
 import dayjs from "dayjs";
 
 const labs = getSortedLabs();
@@ -28,10 +30,11 @@ const STATUS_STYLE: Record<
 ---
 
 <Layout
-  title={`Labs | Devlog`}
+  title={`Labs | ${SITE.title}`}
   description="글에서 다룬 문제를 직접 만져볼 수 있는 작은 시연들. 각 lab은 한 글의 핵심 메시지를 인터랙티브 island로 재현합니다."
 >
   <Header />
+  <Breadcrumb />
   {
     /*
     표준 list 페이지(posts/tags/archives) 가 Main.astro 를 거쳐 자동으로
@@ -42,10 +45,13 @@ const STATUS_STYLE: Record<
   }
   <main id="main-content" data-backUrl="/labs" class="app-layout">
     {/* Hero */}
-    <section
-      class="grid items-end gap-6 border-b border-border pt-14 pb-10 sm:pt-20 sm:pb-12"
-    >
+    <section class="grid items-end gap-6 border-b border-border pb-3 sm:pb-6">
       <div class="flex flex-col gap-3">
+        <h1
+          class="text-alpine text-4xl leading-[1.15] font-bold tracking-tight sm:text-5xl"
+        >
+          Labs
+        </h1>
         <div
           class="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background-elevated px-3 py-1 text-xs text-foreground-muted backdrop-blur-md"
         >
@@ -54,11 +60,6 @@ const STATUS_STYLE: Record<
           ></span>
           interactive · lab
         </div>
-        <h1
-          class="text-alpine pb-1 text-4xl leading-[1.15] font-bold tracking-tight sm:text-5xl"
-        >
-          Labs
-        </h1>
         <p class="mt-2 max-w-3xl text-base text-foreground-muted sm:text-lg">
           글로만 설명하기 아까운 것들을 두는 자리. 각 lab은 글 하나의 핵심
           메시지를 인터랙티브 island로 재현해서, 코드 스니펫이 아니라 직접
