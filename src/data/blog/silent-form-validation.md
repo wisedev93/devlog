@@ -13,11 +13,11 @@ tags:
 description: "다음 버튼이 그냥 죽은 것처럼 보이는 폼 버그를 따라가다 만난 세 레이어(UI/Schema/DB) 어긋남 패턴과, 그 silent failure를 막기 위한 안전망 두 가지. 끝에는 한국어 사용자를 위한 zod에러 메시지 헬퍼."
 ---
 
-한 폼 화면에서 "다음 단계 ➡️" 버튼을 눌렀는데 **아무 일도 안 일어나는** 버그를 겪었습니다. 빨간 에러도 없고, 콘솔에도 별다른 게 없습니다. 그저, 버튼이 죽어 있었어요.
+폼 화면에서 "다음 단계 ➡️" 버튼을 눌렀는데 **아무 일도 안 일어나는** 버그를 겪었습니다. 빨간 에러도 없고, 콘솔에도 별다른 게 없습니다. 그저, 버튼이 죽어 있었어요.
 
 이 글은 그 미세한 어긋남을 어떻게 찾고, 어떻게 일반화 가능한 패턴으로 정리했는지에 대한 기록입니다. 누구나(그리고 미래의 내가) 한 번씩은(다시) 마주칠 함정이라 생각해서 적어둡니다.
 
-> 본문에서 다루는 폼은 **[/labs/silent-form-validation](/labs/silent-form-validation)** 에서 직접 시연할 수 있습니다. dev 패널을 켜둔 채로 "기타" 칩을 누르면, 본문에서 말한 `secondary.N` 인덱스 키가 라이브로 등장하는 걸 볼 수 있어요. 토글을 OFF로 두면 같은 상태가 사용자에게 어떻게 보이는지(= 버튼이 죽은 상태)도 확인할 수 있습니다.
+> 본문에서 다루는 폼은 **[/labs/silent-form-validation](/labs/silent-form-validation#dev-panel)** 에서 직접 시연할 수 있습니다. dev 패널을 켜둔 채로 "기타" 칩을 누르면, 본문에서 말한 `secondary.N` 인덱스 키가 라이브로 등장하는 걸 볼 수 있어요. 토글을 OFF로 두면 같은 상태가 사용자에게 어떻게 보이는지(= 버튼이 죽은 상태)도 확인할 수 있습니다.
 
 ## Table of contents
 
@@ -142,7 +142,7 @@ secondary text[] not null default '{}',
 
 이런 식의 어긋남(휴먼에러)은 프로젝트를 혼자 진행 할 때는 괜찮을지 몰라도 협업하는 과정에서는 코드 리뷰에서 거의 잡히지 않습니다. 세 파일이 동시에 한 PR에 올라오는 일이 드물고, 각자는 자기 영역만 보면 멀쩡해 보이거든요.
 
-> [/labs/silent-form-validation](/labs/silent-form-validation)의 다이어그램 섹션이 정확히 이 어긋남을 시각화합니다. UI / Schema / DB 박스 세 개에서 "기타"의 상태(✓ / ✕ / *)를 점 아이콘으로 비교했어요.
+> [/labs/silent-form-validation](/labs/silent-form-validation#diagram)의 다이어그램 섹션이 정확히 이 어긋남을 시각화합니다. UI / Schema / DB 박스 세 개에서 "기타"의 상태(✓ / ✕ / *)를 점 아이콘으로 비교했어요.
 
 ## 왜 사용자에게 "조용히" 막혔나
 
@@ -172,7 +172,7 @@ function flattenZodErrors(err: z.ZodError): Record<string, string> {
 - "기타"만 눌렀다면 ➡️ 배열은 `["기타"]` ➡️ `N === 0`
 - "옵션 1, 2, 3, 4"를 차례대로 누르고 마지막에 "기타"를 눌렀다면 ➡️ `["옵션 1", "옵션 2", "옵션 3", "옵션 4", "기타"]` ➡️ `N === 4`
 
-즉 같은 버그가 사용자 동작에 따라 매번 다른 키로 박힙니다. [/labs/silent-form-validation](/labs/silent-form-validation)에서 dev 패널을 켜둔 채로 "기타"만 한 번 눌러보면 가장 단순한 케이스인 `secondary.0`이 즉시 나타나요.
+즉 같은 버그가 사용자 동작에 따라 매번 다른 키로 박힙니다. [/labs/silent-form-validation](/labs/silent-form-validation#dev-panel)에서 dev 패널을 켜둔 채로 "기타"만 한 번 눌러보면 가장 단순한 케이스인 `secondary.0`이 즉시 나타나요.
 
 `.join(".")` 을 거치면 키는 이렇게 평탄화됩니다.
 
@@ -202,7 +202,7 @@ function flattenZodErrors(err: z.ZodError): Record<string, string> {
 
 이게 폼 검증의 가장 위험한 실패 패턴 — **silent failure** 입니다. 차라리 빨간 글씨로 영문 에러가 떴다면, 사용자는 적어도 뭔가 잘못된 걸 알아요. 아무것도 안 뜨면 자기가 뭘 잘못한 건지조차 모릅니다.
 
-> [/labs/silent-form-validation](/labs/silent-form-validation)의 폼에서 dev 패널을 켜두고 "기타" 칩을 눌러보면, 라이브로 errors 객체에 `secondary.N` 키가 박혀있는 게 보입니다. 그런데 폼 UI 영역에는 빨간 글씨가 어디에도 없어요.
+> [/labs/silent-form-validation](/labs/silent-form-validation#dev-panel)의 폼에서 dev 패널을 켜두고 "기타" 칩을 눌러보면, 라이브로 errors 객체에 `secondary.N` 키가 박혀있는 게 보입니다. 그런데 폼 UI 영역에는 빨간 글씨가 어디에도 없어요.
 
 ## 두 가지 처방
 
