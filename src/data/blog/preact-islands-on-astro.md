@@ -3,13 +3,14 @@ author: seulgi um
 pubDatetime: 2026-05-15T10:30:00+09:00
 title: "Astro Island, Preact로 하나 띄워보기 — 도구를 고른 이유와 그 비용"
 featured: true
-draft: true
+draft: false
 tags:
   - astro
   - preact
   - frontend
   - architecture
   - performance
+  - islands architecture
 description: "정적 블로그에 인터랙티브 시연 페이지 하나를 띄우면서 마주친 결정들. Islands Architecture가 실제로 어떤 모델인지, 왜 Preact였는지(React/Solid/Svelte가 아닌 이유), 그리고 측정 가능한 비용."
 ---
 
@@ -28,11 +29,11 @@ description: "정적 블로그에 인터랙티브 시연 페이지 하나를 띄
 **페이지 전체를 hydrate 하지 말고, 인터랙티브가 필요한 부분만 hydrate 하자.**
 기존 모델과 비교해 보면 차이가 명확해집니다.
 
-| 모델                    | HTML 전달   | JS 전달                     | hydration 범위           |
-| ----------------------- | ----------- | --------------------------- | ------------------------ |
-| **CSR / SPA**           | 빈 shell    | 전체 앱 번들                | 전체                     |
-| **SSR / SSG** (Next.js) | 완성된 HTML | 전체 페이지 컴포넌트 트리   | 전체 (full hydration)    |
-| **Islands** (Astro)     | 완성된 HTML | island단위로 쪼개진 chunk  | island만 (partial)      |
+| 모델                    | HTML 전달   | JS 전달                   | hydration 범위        |
+| ----------------------- | ----------- | ------------------------- | --------------------- |
+| **CSR / SPA**           | 빈 shell    | 전체 앱 번들              | 전체                  |
+| **SSR / SSG** (Next.js) | 완성된 HTML | 전체 페이지 컴포넌트 트리 | 전체 (full hydration) |
+| **Islands** (Astro)     | 완성된 HTML | island단위로 쪼개진 chunk | island만 (partial)    |
 
 차이의 본질은 **hydration비용이 어디까지 따라오는가**예요. SSR/SSG가 "HTML을 빠르게 보여주지만 JS로 다시 한 번 그려야 하는" 모델이라면, Islands는 "정적 HTML은 그대로 두고 필요한 곳만 JS 로 살린다"는 모델입니다.
 
@@ -54,13 +55,13 @@ import SilentFailureLab from "@/islands/SilentFailureLab";
 
 `client:*` directive 가 핵심이고, 종류와 사용처는 이렇게 정리됩니다.
 
-| Directive          | hydrate 시점                       | 적절한 사용처                               |
-| ------------------ | ---------------------------------- | ------------------------------------------- |
-| `client:load`      | `DOMContentLoaded`직후            | 페이지 진입 즉시 인터랙션 필요한 컴포넌트   |
-| `client:idle`      | `requestIdleCallback`              | 진입에 영향 X, 메인 스레드 한가할 때        |
-| `client:visible`   | `IntersectionObserver`viewport 진입 | fold(첫 화면의 하단 경계선) 아래 위치, 사용자가 도달했을 때만 충분 |
-| `client:media`     | media query 매칭 시                | 모바일에서만 또는 데스크탑에서만 필요한 UI  |
-| `client:only`      | SSR 안 하고 클라이언트에서만 mount | localStorage 필요, 또는 SSR 호환 안 되는 라이브러리 (e.g. Stripe Elements) |
+| Directive        | hydrate 시점                        | 적절한 사용처                                                              |
+| ---------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| `client:load`    | `DOMContentLoaded`직후              | 페이지 진입 즉시 인터랙션 필요한 컴포넌트                                  |
+| `client:idle`    | `requestIdleCallback`               | 진입에 영향 X, 메인 스레드 한가할 때                                       |
+| `client:visible` | `IntersectionObserver`viewport 진입 | fold(첫 화면의 하단 경계선) 아래 위치, 사용자가 도달했을 때만 충분         |
+| `client:media`   | media query 매칭 시                 | 모바일에서만 또는 데스크탑에서만 필요한 UI                                 |
+| `client:only`    | SSR 안 하고 클라이언트에서만 mount  | localStorage 필요, 또는 SSR 호환 안 되는 라이브러리 (e.g. Stripe Elements) |
 
 저는 `client:visible`을 골랐어요. labs 페이지의 fold 아래에 시연이 있어서, 사용자가 스크롤로 도달해야 의미가 있는 컴포넌트입니다. **사용자가 안 본 island에는 JS를 단 한 줄도 안 보내는 게 가능**하다는 게 island모델의 백미예요.
 
@@ -89,14 +90,14 @@ Astro는 multi-framework를 지원입니다. 한 프로젝트 안에 React, Prea
 
 framework 런타임 사이즈는 [`bundlephobia`](https://bundlephobia.com/)와 각 framework의 공식 수치 기준입니다.
 
-| 후보       | 런타임 (gzipped) | API 호환     | 학습 비용 | 선택 |
-| ---------- | ---------------- | ------------ | --------- | ---- |
-| React 19   | ~45 KB           | 그대로 ✓     | 0         | ✕    |
-| **Preact** | **~3 KB**        | **거의 동일** | **수 분**   | **✓** |
-| Solid      | ~7 KB            | 다름 (signals) | 중간      | ✕    |
-| Svelte 5   | 수 KB (런타임 작고 컴포넌트별) | 다름 | 중간      | ✕    |
-| Vue 3      | ~16 KB           | 다름         | 중간      | ✕    |
-| vanilla js | 0 KB             | 직접 작성     | —          | ✕    |
+| 후보       | 런타임 (gzipped)               | API 호환       | 학습 비용 | 선택  |
+| ---------- | ------------------------------ | -------------- | --------- | ----- |
+| React 19   | ~45 KB                         | 그대로 ✓       | 0         | ✕     |
+| **Preact** | **~3 KB**                      | **거의 동일**  | **수 분** | **✓** |
+| Solid      | ~7 KB                          | 다름 (signals) | 중간      | ✕     |
+| Svelte 5   | 수 KB (런타임 작고 컴포넌트별) | 다름           | 중간      | ✕     |
+| Vue 3      | ~16 KB                         | 다름           | 중간      | ✕     |
+| vanilla js | 0 KB                           | 직접 작성      | —         | ✕     |
 
 각각을 떨어뜨린 이유는 분명했어요.
 
@@ -143,12 +144,12 @@ import { useState } from "preact/hooks";
 
 API 는 거의 동일하지만, JSX단에서 다음 차이가 있어요.
 
-| React           | Preact      | 메모                               |
-| --------------- | ----------- | ---------------------------------- |
-| `className`     | `class`     | 둘 다 작동하지만 Preact는 `class` 권장 |
-| `onChange`      | `onInput`   | Preact 는 native input 이벤트 그대로 |
-| `htmlFor`       | `for`       | 마찬가지                           |
-| `useState` etc. | `preact/hooks` 에서 import | tree-shake 친화        |
+| React           | Preact                     | 메모                                   |
+| --------------- | -------------------------- | -------------------------------------- |
+| `className`     | `class`                    | 둘 다 작동하지만 Preact는 `class` 권장 |
+| `onChange`      | `onInput`                  | Preact 는 native input 이벤트 그대로   |
+| `htmlFor`       | `for`                      | 마찬가지                               |
+| `useState` etc. | `preact/hooks` 에서 import | tree-shake 친화                        |
 
 특히 `onChange` ➡️ `onInput`은 React에서 옮겨오면 가장 자주 부딪히는 지점이에요. React의 `onChange`가 사실은 native `input` 이벤트에 매핑돼 있는데, Preact는 native 이름을 그대로 씁니다. **React의 "이상한 점"을 Preact가 native 표준으로 되돌린 것** 에 가깝습니다.
 
@@ -180,13 +181,13 @@ Astro가 build 할 때 island 마다 wrapper script를 만들고, 해당 wrapper
 
 번들 분석은 `astro build` 결과의 `dist/_astro/` 디렉토리를 보면 됩니다.
 
-| 자원                          | 사이즈 (gzipped) | 비고                          |
-| ----------------------------- | ---------------- | ----------------------------- |
-| Astro페이지 wrapper          | 약 1–2 KB        | client directive처리         |
-| Preact런타임 + hooks         | 약 4 KB          | `preact` + `preact/hooks`     |
-| zod(런타임)                  | 약 14 KB        | enum 검증·errorMap 그대로 사용 |
-| `SilentFailureLab.tsx`        | 약 3 KB         | 컴포넌트 본체            |
-| **합계**                      | **약 22 KB**     | viewport 진입 후              |
+| 자원                   | 사이즈 (gzipped) | 비고                           |
+| ---------------------- | ---------------- | ------------------------------ |
+| Astro페이지 wrapper    | 약 1–2 KB        | client directive처리           |
+| Preact런타임 + hooks   | 약 4 KB          | `preact` + `preact/hooks`      |
+| zod(런타임)            | 약 14 KB         | enum 검증·errorMap 그대로 사용 |
+| `SilentFailureLab.tsx` | 약 3 KB          | 컴포넌트 본체                  |
+| **합계**               | **약 22 KB**     | viewport 진입 후               |
 
 같은 컴포넌트를 React로 짰다면 런타임만 ~45KB. 거의 두 배가 됩니다.
 
