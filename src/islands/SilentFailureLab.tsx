@@ -104,7 +104,7 @@ function LayerCard({
 
 function Diagram() {
   return (
-    <section class="flex flex-col gap-6">
+    <section id="diagram" class="flex flex-col gap-6">
       <header class="flex flex-col gap-2">
         <p class="font-app text-[11px] tracking-[0.35em] text-accent uppercase">
           three layers
@@ -263,7 +263,7 @@ function Form() {
   }, [clickedNextAt]);
 
   return (
-    <section class="flex flex-col gap-6">
+    <section id="dev-panel" class="flex flex-col gap-6">
       <header class="flex flex-col gap-2">
         <p class="font-app text-[11px] tracking-[0.35em] text-accent uppercase">
           silent failure form
@@ -524,6 +524,13 @@ function Form() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export default function SilentFailureLab() {
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+    const el = document.querySelector(hash);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
   return (
     <div class="flex flex-col gap-16 py-8">
       <Diagram />
