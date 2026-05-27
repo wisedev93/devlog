@@ -1,0 +1,24 @@
+---
+/**
+ * /labs/upload-timeline — 순차 vs 병렬 업로드 타임라인 시연 페이지.
+ * 메타데이터는 src/data/labsMeta.ts 에서, island 는 src/islands/UploadTimelineLab.tsx 에서.
+ */
+import LabLayout from "@/layouts/LabLayout.astro";
+import UploadTimelineLab from "@/islands/UploadTimelineLab";
+import { getLab } from "@/data/labsMeta";
+
+const lab = getLab("upload-timeline");
+if (!lab) {
+  return Astro.redirect("/labs");
+}
+---
+
+<LabLayout
+  title={lab.title}
+  summary={lab.summary}
+  tags={lab.tags}
+  post={lab.post}
+  pubDate={lab.pubDate}
+>
+  <UploadTimelineLab client:visible />
+</LabLayout>
