@@ -1,5 +1,5 @@
 ---
-author: wisedev93
+author: seulgi um
 pubDatetime: 2026-04-27T11:40:00+09:00
 title: "Hello, world — 블로그를 개설했습니다. 그리고 Astro를 고른 이유"
 featured: true
@@ -88,7 +88,7 @@ starter는 [`astro-paper`](https://github.com/satnaing/astro-paper)를 썼습니
 - **디자인 시스템을 처음 구축**할 때 자주 빠지는 함정들
 - 개발자로서 **팀 리뷰 문화를 바꿔본 시도들**
 
-목표는 단순합니다. "*내가 읽었을 때 도움이 됐을 글*"을 쓰는 것.
+목표는 단순합니다. "_내가 읽었을 때 도움이 됐을 글_"을 쓰는 것.
 
 ## 마무리
 

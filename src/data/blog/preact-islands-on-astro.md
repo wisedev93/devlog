@@ -221,4 +221,4 @@ Astro가 build 할 때 island 마다 wrapper script를 만들고, 해당 wrapper
 
 Astro의 island 모델은 단순히 "HTML 정적, JS 부분만"으로 요약되기 쉽지만, 실제로 도구를 골라 짜다 보면 hydration시점(`client:*`)과 framework 런타임 비용, JSX pragma의 위치, props 직렬화 같은 결정들이 줄지어 따라옵니다. 이 결정들을 한 번 정리해두면 다음에 island를 만들 때 "왜 이렇게 짰는지" 를 다시 설명하지 않아도 돼요.
 
-직접 만져보고 싶다면 **[/labs/silent-form-validation](/labs/silent-form-validation)**에서 island가 어떻게 떠 있는지 볼 수 있어요. 네트워크 탭을 열어두고 페이지를 천천히 스크롤해보면, viewport 영역이 fold에 닿는 순간 새로운 chunk들이 로드되는 게 보입니다. 그게 island가 깨어나는 순간이에요.
+직접 만져보고 싶다면 **[/labs/silent-form-validation](/labs/silent-form-validation)** 에서 island가 어떻게 떠 있는지 볼 수 있어요. 네트워크 탭을 열어두고 페이지를 천천히 스크롤해보면, viewport 영역이 fold에 닿는 순간 새로운 chunk들이 로드되는 게 보입니다. 그게 island가 깨어나는 순간이에요.
