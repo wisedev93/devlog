@@ -17,9 +17,17 @@ import { useEffect, useMemo, useRef, useState } from "preact/hooks";
 type Scenario = { n: number; h: number; t: number };
 
 const PRESETS: { label: string; hint: string; s: Scenario }[] = [
-  { label: "모바일 · 작은 사진", hint: "지연이 지배적", s: { n: 4, h: 380, t: 320 } },
+  {
+    label: "모바일 · 작은 사진",
+    hint: "지연이 지배적",
+    s: { n: 4, h: 380, t: 320 },
+  },
   { label: "균형", hint: "기본값", s: { n: 4, h: 280, t: 1100 } },
-  { label: "Wi-Fi · 무거운 원본", hint: "전송이 지배적", s: { n: 4, h: 110, t: 2600 } },
+  {
+    label: "Wi-Fi · 무거운 원본",
+    hint: "전송이 지배적",
+    s: { n: 4, h: 110, t: 2600 },
+  },
 ];
 
 const PLAY_MS = 2800; // 재생 애니메이션의 실제 길이
@@ -184,7 +192,13 @@ export default function UploadTimelineLab() {
         tr: ((n * t) / scale) * 100,
       });
     }
-    return { seqTotal, parTotal, speedup: seqTotal / parTotal, seqBars, parBars };
+    return {
+      seqTotal,
+      parTotal,
+      speedup: seqTotal / parTotal,
+      seqBars,
+      parBars,
+    };
   }, [n, h, t]);
 
   // 재생 — 같은 시뮬레이션 시각을 두 타임라인이 공유한다.
@@ -231,10 +245,11 @@ export default function UploadTimelineLab() {
           병렬 업로드는 왜 장수만큼 빨라지지 않을까
         </h2>
         <p class="text-sm text-foreground-muted">
-          업로드 한 장을 <span class="text-amber-300">핸드셰이크(고정 비용)</span>
-          와 <span class="text-accent">전송(대역폭 점유)</span> 둘로 쪼개서,
-          순차와 병렬의 타임라인을 같은 시간 축 위에 겹쳐 봅니다. 슬라이더를
-          움직이면 단축 배수가 1배에서 N배 사이를 오가는 게 보여요.
+          업로드 한 장을{" "}
+          <span class="text-amber-300">핸드셰이크(고정 비용)</span>와{" "}
+          <span class="text-accent">전송(대역폭 점유)</span> 둘로 쪼개서, 순차와
+          병렬의 타임라인을 같은 시간 축 위에 겹쳐 봅니다. 슬라이더를 움직이면
+          단축 배수가 1배에서 N배 사이를 오가는 게 보여요.
         </p>
       </header>
 
@@ -326,7 +341,7 @@ export default function UploadTimelineLab() {
             {speedup.toFixed(2)}×
           </span>
           <span class="text-[11.5px] text-foreground-muted">
-            이론 한계 {n}× (전송이 0 일 때)
+            이론 한계 {n}× (전송이 0일 때)
           </span>
         </div>
       </div>
@@ -364,24 +379,24 @@ export default function UploadTimelineLab() {
       {/* 해설 */}
       <div class="flex flex-col gap-2 rounded-2xl p-5 glass">
         <p class="text-[13px] leading-relaxed text-foreground-muted">
-          <span class="font-semibold text-foreground">읽는 법.</span> 두 타임라인은
-          같은 시간 축을 씁니다. 병렬은 핸드셰이크
-          <span class="text-amber-300"> 막대들이 0 에 겹쳐</span> 한 칸으로
+          <span class="font-semibold text-foreground">읽는 법.</span> 두
+          타임라인은 같은 시간 축을 씁니다. 병렬은 핸드셰이크
+          <span class="text-amber-300"> 막대들이 0에 겹쳐</span> 한 칸으로
           줄지만, 전송
-          <span class="text-accent"> 막대는 N 배로 길어집니다</span> — 같은 회선의
-          대역폭을 N 장이 나눠 쓰니까요. 그래서 병렬이 줄이는 건 결국
+          <span class="text-accent"> 막대는 N배로 길어집니다</span> — 같은
+          회선의 대역폭을 N장이 나눠 쓰니까요. 그래서 병렬이 줄이는 건 결국
           핸드셰이크의 쌓임 <span class="font-app">(N−1) × H</span> 뿐이에요.
         </p>
         <p class="text-[13px] leading-relaxed text-foreground-muted">
-          전송 T 를 0 에 가깝게 내리면 단축 배수가 N 에 닿고, H 를 0 에 가깝게
-          내리면 1 에 붙습니다. 현실의 사진 업로드는 그 사이 어딘가라, "몇 배
+          전송 T를 0에 가깝게 내리면 단축 배수가 N에 닿고, H를 0에 가깝게 내리면
+          1에 붙습니다. 현실의 사진 업로드는 그 사이 어딘가라, "몇 배
           빨라졌다"는 <span class="text-foreground">측정해야</span> 알 수 있는
           숫자예요.
         </p>
         <p class="mt-1 text-[11px] text-foreground-muted/70">
           ※ 대역폭이 완벽히 균등 분배되고 핸드셰이크가 완전히 겹친다고 가정한
-          단순 모델입니다. 실제로는 HTTP/2 다중화, 연결 수 제한, 서버측
-          병렬도에 따라 달라집니다.
+          단순 모델입니다. 실제로는 HTTP/2 다중화, 연결 수 제한, 서버측 병렬도에
+          따라 달라집니다.
         </p>
       </div>
     </div>

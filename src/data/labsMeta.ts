@@ -30,8 +30,8 @@ export const labs: LabMeta[] = [
       "사진 N장을 순차로 올릴 때와 Promise.all로 병렬로 올릴 때의 시간을, 핸드셰이크(고정 비용)와 전송(대역폭 공유)으로 쪼개 비교하는 인터랙티브. 병렬이 왜 장수만큼 빨라지지 않는지 슬라이더로 직접 확인합니다.",
     tags: ["upload", "performance", "concurrency"],
     post: "/posts/direct-to-storage-upload",
-    pubDate: new Date("2026-05-22T12:00:00+09:00"),
-    status: "draft",
+    pubDate: new Date("2026-05-28T12:00:00+09:00"),
+    status: "live",
   },
   {
     slug: "silent-form-validation",
