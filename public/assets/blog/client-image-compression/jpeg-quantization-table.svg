@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 380" role="img" aria-label="JPEG quantization table around q85 — low frequencies have small values (precise), high frequencies have large values (coarse)">
+  <defs>
+    <linearGradient id="quantGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ecfdf5"/>
+      <stop offset="100%" stop-color="#fef2f2"/>
+    </linearGradient>
+    <pattern id="qgrid8" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 L 0 30" fill="none" stroke="#475569" stroke-width="0.6"/>
+    </pattern>
+  </defs>
+  <style>
+    .title   { font: 600 14px ui-sans-serif, system-ui, -apple-system, sans-serif; fill: #111827; text-anchor: middle; }
+    .lblHead { font: 600 14px ui-sans-serif, system-ui, -apple-system, sans-serif; fill: #111827; }
+    .lblSub  { font: 12px ui-sans-serif, system-ui, -apple-system, sans-serif; fill: #6b7280; }
+    .num     { font: 600 13px ui-sans-serif, system-ui, -apple-system, sans-serif; text-anchor: middle; dominant-baseline: middle; }
+    .nSmall  { fill: #047857; }
+    .nMid    { fill: #ca8a04; }
+    .nLarge  { fill: #b91c1c; }
+  </style>
+
+  <text x="300" y="28" class="title">양자화 테이블 (q85 근처, 단순화)</text>
+
+  <g transform="translate(180, 55)">
+    <rect width="240" height="240" fill="url(#quantGrad)" rx="3"/>
+    <rect width="240" height="240" fill="url(#qgrid8)"/>
+
+    <!-- Row 0: 8 6 6 8 12 20 26 31 -->
+    <text class="num nSmall" x="15"  y="15">8</text>
+    <text class="num nSmall" x="45"  y="15">6</text>
+    <text class="num nSmall" x="75"  y="15">6</text>
+    <text class="num nSmall" x="105" y="15">8</text>
+    <text class="num nSmall" x="135" y="15">12</text>
+    <text class="num nMid"   x="165" y="15">20</text>
+    <text class="num nMid"   x="195" y="15">26</text>
+    <text class="num nMid"   x="225" y="15">31</text>
+
+    <!-- Row 1: 6 6 7 10 13 29 30 28 -->
+    <text class="num nSmall" x="15"  y="45">6</text>
+    <text class="num nSmall" x="45"  y="45">6</text>
+    <text class="num nSmall" x="75"  y="45">7</text>
+    <text class="num nSmall" x="105" y="45">10</text>
+    <text class="num nSmall" x="135" y="45">13</text>
+    <text class="num nMid"   x="165" y="45">29</text>
+    <text class="num nMid"   x="195" y="45">30</text>
+    <text class="num nMid"   x="225" y="45">28</text>
+
+    <!-- Row 2: 7 6 8 12 20 29 35 28 -->
+    <text class="num nSmall" x="15"  y="75">7</text>
+    <text class="num nSmall" x="45"  y="75">6</text>
+    <text class="num nSmall" x="75"  y="75">8</text>
+    <text class="num nSmall" x="105" y="75">12</text>
+    <text class="num nMid"   x="135" y="75">20</text>
+    <text class="num nMid"   x="165" y="75">29</text>
+    <text class="num nLarge" x="195" y="75">35</text>
+    <text class="num nMid"   x="225" y="75">28</text>
+
+    <!-- Row 3: 7 9 11 15 26 44 40 31 -->
+    <text class="num nSmall" x="15"  y="105">7</text>
+    <text class="num nSmall" x="45"  y="105">9</text>
+    <text class="num nSmall" x="75"  y="105">11</text>
+    <text class="num nMid"   x="105" y="105">15</text>
+    <text class="num nMid"   x="135" y="105">26</text>
+    <text class="num nLarge" x="165" y="105">44</text>
+    <text class="num nLarge" x="195" y="105">40</text>
+    <text class="num nMid"   x="225" y="105">31</text>
+
+    <!-- Row 4: 9 11 19 28 34 55 52 39 -->
+    <text class="num nSmall" x="15"  y="135">9</text>
+    <text class="num nSmall" x="45"  y="135">11</text>
+    <text class="num nMid"   x="75"  y="135">19</text>
+    <text class="num nMid"   x="105" y="135">28</text>
+    <text class="num nMid"   x="135" y="135">34</text>
+    <text class="num nLarge" x="165" y="135">55</text>
+    <text class="num nLarge" x="195" y="135">52</text>
+    <text class="num nLarge" x="225" y="135">39</text>
+
+    <!-- Row 5: 12 18 28 32 41 52 57 46 -->
+    <text class="num nSmall" x="15"  y="165">12</text>
+    <text class="num nMid"   x="45"  y="165">18</text>
+    <text class="num nMid"   x="75"  y="165">28</text>
+    <text class="num nMid"   x="105" y="165">32</text>
+    <text class="num nLarge" x="135" y="165">41</text>
+    <text class="num nLarge" x="165" y="165">52</text>
+    <text class="num nLarge" x="195" y="165">57</text>
+    <text class="num nLarge" x="225" y="165">46</text>
+
+    <!-- Row 6: 25 32 39 44 52 61 60 51 -->
+    <text class="num nMid"   x="15"  y="195">25</text>
+    <text class="num nMid"   x="45"  y="195">32</text>
+    <text class="num nLarge" x="75"  y="195">39</text>
+    <text class="num nLarge" x="105" y="195">44</text>
+    <text class="num nLarge" x="135" y="195">52</text>
+    <text class="num nLarge" x="165" y="195">61</text>
+    <text class="num nLarge" x="195" y="195">60</text>
+    <text class="num nLarge" x="225" y="195">51</text>
+
+    <!-- Row 7: 36 46 48 49 56 50 52 50 -->
+    <text class="num nLarge" x="15"  y="225">36</text>
+    <text class="num nLarge" x="45"  y="225">46</text>
+    <text class="num nLarge" x="75"  y="225">48</text>
+    <text class="num nLarge" x="105" y="225">49</text>
+    <text class="num nLarge" x="135" y="225">56</text>
+    <text class="num nLarge" x="165" y="225">50</text>
+    <text class="num nLarge" x="195" y="225">52</text>
+    <text class="num nLarge" x="225" y="225">50</text>
+
+    <rect width="240" height="240" fill="none" stroke="#1e293b" stroke-width="1.5" rx="3"/>
+  </g>
+
+  <text x="20"  y="90"  class="lblHead">저주파</text>
+  <text x="20"  y="108" class="lblSub">작은 값</text>
+  <text x="20"  y="124" class="lblSub">정밀 보존</text>
+
+  <text x="445" y="300" class="lblHead">고주파</text>
+  <text x="445" y="318" class="lblSub">큰 값</text>
+  <text x="445" y="334" class="lblSub">거칠게 깎임</text>
+</svg>
