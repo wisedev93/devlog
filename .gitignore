@@ -29,3 +29,6 @@ public/pagefind
 
 # claude
 CLAUDE.md
+
+# blog drafts (로컬에서만 — dev 미리보기는 되지만 git/배포에는 안 올라감)
+src/data/blog/draft/
