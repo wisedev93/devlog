@@ -74,8 +74,8 @@ const allPosts = posts.map(({ data: { title }, id, filePath }) => ({
 
 const currentPostIndex = allPosts.findIndex(a => a.id === post.id);
 
-const prevPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
-const nextPost =
+const nextPost = currentPostIndex !== 0 ? allPosts[currentPostIndex - 1] : null;
+const prevPost =
   currentPostIndex !== allPosts.length ? allPosts[currentPostIndex + 1] : null;
 ---
 
