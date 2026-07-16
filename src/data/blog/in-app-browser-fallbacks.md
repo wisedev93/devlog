@@ -57,7 +57,7 @@ export function resolvePhotoKind(
   if (t === "image/png") return "png";
   if (t === "image/jpeg" || t === "image/jpg") return "jpg";
 
-  // MIME 누락(인앱 브라우저) → 확장자로 판별
+  // MIME 누락(인앱 브라우저) ➜ 확장자로 판별
   if (t === "" || t === "application/octet-stream") {
     const ext = (name ?? "").toLowerCase().split(".").pop() ?? "";
     if (ext === "png") return "png";
@@ -108,7 +108,7 @@ const timer = window.setTimeout(markUnavailable, UNAVAILABLE_TIMEOUT_MS);
 ensureScript()
   .then(() => { /* ...turnstile.render() */ })
   .catch(() => {
-    // 스크립트 로드 실패 (인앱 브라우저/광고차단 등) → 사용 불가 처리
+    // 스크립트 로드 실패 (인앱 브라우저/광고차단 등) ➜ 사용 불가 처리
     markUnavailable();
   });
 ```
@@ -135,7 +135,7 @@ ensureScript()
 let turnstileVerified = false;
 if (!turnstileToken && turnstileUnavailable) {
   // 인앱 브라우저·광고차단 등으로 Turnstile 을 아예 못 불러온 경우.
-  // 접수를 막지 않고 turnstile_verified=false 로 표기 → 운영자가 더 꼼꼼히 검토.
+  // 접수를 막지 않고 turnstile_verified=false 로 표기 ➜ 운영자가 더 꼼꼼히 검토.
   turnstileVerified = false;
 } else {
   const tsResult = await verifyTurnstileToken(turnstileToken);
@@ -195,7 +195,7 @@ function detect(): Detected {
 | ----------------------- | -------------------------------------------------------- |
 | 카카오톡 (iOS/Android)  | `kakaotalk://web/openExternal?url=...` 스킴              |
 | 안드로이드 (그 외 인앱) | `intent://...#Intent;...;package=com.android.chrome;end` |
-| iOS (그 외 인앱)        | 강제 탈출 스킴 없음 → 메뉴 안내 + 주소 복사              |
+| iOS (그 외 인앱)        | 강제 탈출 스킴 없음 ➜ 메뉴 안내 + 주소 복사              |
 
 ```ts title="components/apply/InAppBrowserNotice.tsx"
 function openExternal() {
@@ -221,8 +221,8 @@ function openExternal() {
 
 ```ts title="components/apply/InAppBrowserNotice.tsx"
 const menuGuide = info.os === "ios"
-  ? "화면 메뉴 버튼(··· 또는 공유 아이콘) → 'Safari로 열기'를 눌러주세요."
-  : "화면 메뉴 버튼(··· 또는 ⋮) → '다른 브라우저로 열기'를 눌러주세요.";
+  ? "화면 메뉴 버튼(··· 또는 공유 아이콘) ➜ 'Safari로 열기'를 눌러주세요."
+  : "화면 메뉴 버튼(··· 또는 ⋮) ➜ '다른 브라우저로 열기'를 눌러주세요.";
 ```
 
 ### 최후의 수단: 주소 복사
@@ -247,9 +247,9 @@ async function copyUrl() {
 
 ```
 전용 스킴 (카카오톡)
-   └─ 실패 시 → intent 스킴 (안드로이드)
-        └─ 불가능 시 → 메뉴 안내 (iOS)
-             └─ 그래도 안 되면 → 주소 복사 (모든 환경)
+   └─ 실패 시 ➜ intent 스킴 (안드로이드)
+        └─ 불가능 시 ➜ 메뉴 안내 (iOS)
+             └─ 그래도 안 되면 ➜ 주소 복사 (모든 환경)
 ```
 
 위로 갈수록 매끄럽고 아래로 갈수록 확실합니다. 한 단계가 막혀도 다음 단계가 받아요.

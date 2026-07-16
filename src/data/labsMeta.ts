@@ -24,6 +24,16 @@ export type LabMeta = {
 
 export const labs: LabMeta[] = [
   {
+    slug: "react-compiler-toggle",
+    title: "React Compiler toggle",
+    summary:
+      "같은 화면을 compiler on/off 두 모드로 나란히 렌더하는 데모. 부모 상태만 바뀔 때 자식 row가 몇 번 렌더되는지 카운터와 flash로 직접 확인할 수 있습니다. 메모이즈가 아끼는 건 '안 바뀐 것'뿐이라는 걸 눈으로 봅니다.",
+    tags: ["react", "react-compiler", "rendering", "memoization"],
+    post: "/posts/react-compiler-bill",
+    pubDate: new Date("2026-07-16T13:00:00+09:00"),
+    status: "live",
+  },
+  {
     slug: "upload-timeline",
     title: "Parallel upload timeline",
     summary:
