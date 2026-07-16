@@ -55,12 +55,12 @@ description: "ESLint가 아예 안 돌고 테스트는 1개, any는 328개, 1000
 
 ```
 Orchestrator                         바깥 루프 컨트롤러 · 최종 go/no-go
- │   ↕ 매 단계 Verifier(사실) → 필요시 Critic(판단) 호출 → 판정 받고 집행
+ │   ↕ 매 단계 Verifier(사실) ➜ 필요시 Critic(판단) 호출 ➜ 판정 받고 집행
  ├─ [멀티에이전트] Planner ⟷ Worker
- │                          └─ [서브에이전트] Implementer → Test Author → Debugger
+ │                          └─ [서브에이전트] Implementer ➜ Test Author ➜ Debugger
  ├─ Verifier   검토형 공유 평가자 · 사실 검증(테스트/빌드/lint) · sonnet
  ├─ Critic     판단형 공유 평가자 · 디자인/구조/네이밍 품질 판단 · opus
- └─ Reflector  종료 후 1회 · 교훈 → 하네스 개선 "제안"
+ └─ Reflector  종료 후 1회 · 교훈 ➜ 하네스 개선 "제안"
 ```
 
 | 역할             | 책임                                                      |

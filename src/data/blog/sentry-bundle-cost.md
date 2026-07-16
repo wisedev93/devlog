@@ -28,7 +28,7 @@ description: "프로덕션 에러 모니터링이 없던 어드민에 Sentry를 
 | 기존                                        | 에러 모니터링 도입 후                        |
 | ------------------------------------------- | -------------------------------------------- |
 | 사용자가 "안 돼요"라고 보고해야 인지        | 에러 발생 즉시 대시보드에 도착               |
-| `console.log` 와 함께 재현 시도 → 재현 실패 | 스택 트레이스 + 브레드크럼 자동 수집         |
+| `console.log` 와 함께 재현 시도 ➜ 재현 실패 | 스택 트레이스 + 브레드크럼 자동 수집         |
 | "어떤 브라우저/OS인가요?" 매번 질문         | 브라우저·OS·디바이스 자동 기록               |
 | API 실패의 원인 추적이 어려움               | 실패한 요청의 url·method·status·payload 캡처 |
 
@@ -232,7 +232,7 @@ import("@sentry/react").then((S) =>
 그래서 replay만 쓰는 별도 모듈을 만들고, 그 모듈을 동적으로만 부르는 구조로 바꿨습니다.
 
 ```ts title="src/sentry-replay.ts"
-// 이 파일은 동적 import로만 불린다 → rrweb가 이 파일의 별도 청크에 담긴다
+// 이 파일은 동적 import로만 불린다 ➜ rrweb가 이 파일의 별도 청크에 담긴다
 import { addIntegration, replayIntegration } from "@sentry/react";
 addIntegration(replayIntegration());
 ```
@@ -295,3 +295,4 @@ pnpm build 2>&1 | tee build-after.txt
 > 같이 읽으면 좋은 글
 >
 > - [98초 걸리던 사진 업로드, 클라이언트 압축으로 17초까지](/posts/client-image-compression)
+> - [React Compiler를 켜면 useMemo가 필요없을까?](/posts/react-compiler-bill)

@@ -1,0 +1,24 @@
+---
+/**
+ * /labs/react-compiler-toggle — React Compiler on/off 렌더 전파 시뮬레이션.
+ * 메타데이터는 src/data/labsMeta.ts 에서, island 는 src/islands/ReactCompilerToggleLab.tsx 에서.
+ */
+import LabLayout from "@/layouts/LabLayout.astro";
+import ReactCompilerToggleLab from "@/islands/ReactCompilerToggleLab";
+import { getLab } from "@/data/labsMeta";
+
+const lab = getLab("react-compiler-toggle");
+if (!lab) {
+  return Astro.redirect("/labs");
+}
+---
+
+<LabLayout
+  title={lab.title}
+  summary={lab.summary}
+  tags={lab.tags}
+  post={lab.post}
+  pubDate={lab.pubDate}
+>
+  <ReactCompilerToggleLab client:visible />
+</LabLayout>

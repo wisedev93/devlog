@@ -433,7 +433,7 @@ function Form() {
             onClick={onNext}
             class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-semibold text-background shadow-[0_0_18px_var(--accent-glow)] transition hover:shadow-[0_0_28px_var(--accent-glow)]"
           >
-            다음 단계 <span aria-hidden>➡️</span>
+            다음 단계 <span aria-hidden>➜</span>
           </button>
 
           {movedNext && (

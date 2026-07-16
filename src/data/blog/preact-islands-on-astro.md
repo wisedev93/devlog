@@ -126,7 +126,7 @@ API는 거의 동일하지만 JSX 단에서 이런 차이가 있습니다.
 | `htmlFor`       | `for`                      | 마찬가지                               |
 | `useState` etc. | `preact/hooks` 에서 import | tree-shake 친화                        |
 
-React에서 코드를 옮겨올 때 가장 자주 부딪히는 건 `onChange` → `onInput`입니다. React의 `onChange`는 사실 native `input` 이벤트에 매핑된 별칭인데, Preact는 native 이름을 그대로 씁니다. React의 독특한 부분을 Preact가 웹 표준 쪽으로 되돌린 것에 가까워요.
+React에서 코드를 옮겨올 때 가장 자주 부딪히는 건 `onChange` ➜ `onInput`입니다. React의 `onChange`는 사실 native `input` 이벤트에 매핑된 별칭인데, Preact는 native 이름을 그대로 씁니다. React의 독특한 부분을 Preact가 웹 표준 쪽으로 되돌린 것에 가까워요.
 
 ```tsx
 // React 코드
