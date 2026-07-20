@@ -62,7 +62,7 @@ function RowBase({ item, tally }: { item: Item; tally: Tally }) {
         },
         { backgroundColor: "transparent" },
       ],
-      { duration: 550 },
+      { duration: 550 }
     );
   });
 
@@ -78,7 +78,7 @@ function RowBase({ item, tally }: { item: Item; tally: Tally }) {
       <span class={`text-[11.5px] ${STATUS_TONE[item.status]}`}>
         {item.status}
       </span>
-      <span class="font-app w-16 text-right text-[11px] text-foreground-muted">
+      <span class="w-16 text-right font-app text-[11px] text-foreground-muted">
         렌더 <span class="text-foreground">{count.current}</span>회
       </span>
     </div>
@@ -172,7 +172,7 @@ export default function ReactCompilerToggleLab() {
   // 렌더될 때는 같은 참조가 유지되어, ON 패널의 row 가 skip 할 수 있다.
   const rows = useMemo(() => {
     const filtered = ITEMS.filter(
-      it => filter === "전체" || it.group === filter,
+      it => filter === "전체" || it.group === filter
     );
     const ordered = desc ? [...filtered].reverse() : filtered;
     return ordered.map(it => ({ ...it }));
@@ -294,9 +294,9 @@ export default function ReactCompilerToggleLab() {
           것"뿐입니다.
         </p>
         <p class="text-[13px] leading-relaxed text-foreground-muted">
-          본문 측정 2에서 수동 메모이즈 15곳을 지워도 커밋 수가 그대로였던 것,
-          compiler 를 끄자 모달 렌더 시간이 2.3배가 된 것이 정확히 이 차이의
-          실전판입니다.
+          관련글 본문 측정 2에서 수동 메모이즈 15곳을 지워도 커밋 수가
+          그대로였던 것, compiler 를 끄자 모달 렌더 시간이 2.3배가 된 것과
+          같습니다.
         </p>
         <p class="mt-1 text-[11px] text-foreground-muted/70">
           ※ 이 데모는 실제 React Compiler 를 브라우저에서 돌리는 게 아니라,
