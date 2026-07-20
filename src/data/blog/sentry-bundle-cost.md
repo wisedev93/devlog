@@ -294,5 +294,6 @@ pnpm build 2>&1 | tee build-after.txt
 
 > 같이 읽으면 좋은 글
 >
-> - [98초 걸리던 사진 업로드, 클라이언트 압축으로 17초까지](/posts/client-image-compression)
+> - [Vite 빌드의 chunks are larger than 500 kB 경고, manualChunks로 쪼개면 빨라질까](/posts/entry-chunk-500kb)
 > - [React Compiler를 켜면 useMemo가 필요없을까?](/posts/react-compiler-bill)
+> - [98초 걸리던 사진 업로드, 클라이언트 압축으로 17초까지](/posts/client-image-compression)
