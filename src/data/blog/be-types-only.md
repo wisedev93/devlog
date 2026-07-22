@@ -2,7 +2,7 @@
 author: seulgi um
 pubDatetime: 2026-07-21T22:30:00+09:00
 title: "lint로 못 잡는 코딩 컨벤션, 코드 구조로 강제하기 — React Query + Zod CRUD 팩토리 함수"
-featured: false
+featured: true
 draft: false
 tags:
   - frontend
