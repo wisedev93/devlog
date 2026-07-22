@@ -1,7 +1,7 @@
 ---
 author: seulgi um
 pubDatetime: 2026-05-15T10:30:00+09:00
-title: "정적 블로그에 인터랙티브 한 페이지 얹기, Preact island의 비용 측정"
+title: "정적 블로그에 인터랙티브 추가하기 - Preact island의 비용 측정"
 featured: true
 draft: false
 tags:
