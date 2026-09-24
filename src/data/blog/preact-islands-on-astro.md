@@ -38,7 +38,7 @@ description: "정적 블로그에 인터랙티브 데모 페이지 하나를 띄
 
 ## Astro의 island 모델
 
-Astro의 island는 이 한 줄로 시작합니다.
+Astro의 island는 아래 지시어 하나로 시작합니다.
 
 ```astro
 ---
@@ -113,7 +113,7 @@ Astro는 multi-framework를 지원합니다. 한 프로젝트 안에 React, Prea
 import { useState } from "preact/hooks";
 ```
 
-이유는 단순합니다. 나중에 React 컴포넌트도 같이 띄울 여지를 남겨두고 싶었어요. Astro는 같은 프로젝트에 React와 Preact를 함께 쓰는 걸 허용하는데, 글로벌을 한쪽으로 못 박으면 그 옵션을 잃습니다. pragma는 한 줄이고, 파일이 어떤 JSX 런타임을 쓰는지 그 파일 안에 명시되니 가독성에도 나쁘지 않고요.
+이유는 단순합니다. 나중에 React 컴포넌트도 같이 띄울 여지를 남겨두고 싶었어요. Astro는 같은 프로젝트에 React와 Preact를 함께 쓰는 걸 허용하는데, 글로벌 설정을 한쪽으로 고정하면 그 옵션을 잃습니다. pragma는 한 줄이고, 파일이 어떤 JSX 런타임을 쓰는지 그 파일 안에 명시되니 가독성에도 나쁘지 않고요.
 
 ### Preact의 미세한 JSX 차이
 
@@ -182,7 +182,7 @@ Astro가 빌드할 때 island마다 wrapper script를 만들고, 그 wrapper가 
 
 ## 마무리
 
-이번 결정을 한 줄로 줄이면 이렇습니다. 정적 블로그에 데모 한 페이지를 띄우는 작업에서, 단일 island의 비용을 최소화하면서 React 코드 자산을 그대로 옮기고 싶었고, Preact + zod가 그 교집합이었다.
+이번 결정을 요약하면 이렇습니다. 정적 블로그에 데모 한 페이지를 띄우는 작업에서, 단일 island의 비용을 최소화하면서 React 코드 자산을 그대로 옮기고 싶었고, Preact + zod가 두 조건을 모두 만족하는 선택이었다.
 
 island 모델은 "HTML은 정적, JS는 부분만"으로 요약되기 쉽지만, 실제로 짜다 보면 hydration 시점(`client:*`), 프레임워크 런타임 비용, JSX pragma의 위치, props 직렬화 같은 결정이 줄지어 따라옵니다. 한 번 정리해두면 다음 island를 만들 때 같은 고민을 반복하지 않아도 돼요.
 
