@@ -17,7 +17,10 @@ export default defineConfig({
   site: SITE.website,
   integrations: [
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      // /portfolio 는 링크 공유 전용 — sitemap 에서 제외
+      filter: page =>
+        !page.includes("/portfolio") &&
+        (SITE.showArchives || !page.endsWith("/archives")),
     }),
     // Labs 페이지의 인터랙티브 island 용. tsconfig 의 글로벌 jsxImportSource 를
     // 건드리지 않기 위해 island 컴포넌트 안에서 파일별 pragma 로 preact JSX 를 지정.

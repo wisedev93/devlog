@@ -1,0 +1,121 @@
+---
+/**
+ * /portfolio — 링크 공유 전용 포트폴리오 목록.
+ * 헤더 메뉴에는 없고 홈 HeroTerminal 에서만 링크합니다. (noindex · sitemap 제외)
+ */
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import { projects } from "@/data/portfolio";
+import { SITE } from "@/config";
+---
+
+<Layout
+  title={`Portfolio | ${SITE.title}`}
+  description="EV 충전 인프라 · AI Agent 도메인에서 만든 프로젝트들"
+  noindex
+>
+  <Header />
+  <Breadcrumb />
+  <main id="main-content" class="app-layout">
+    <section class="flex flex-col gap-3 border-b border-border pb-6">
+      <h1
+        class="text-alpine text-4xl leading-[1.15] font-bold tracking-tight sm:text-5xl"
+      >
+        Portfolio
+      </h1>
+      <div
+        class="inline-flex w-fit items-center gap-2 rounded-full border border-border bg-background-elevated px-3 py-1 text-xs text-foreground-muted backdrop-blur-md"
+      >
+        <span
+          class="size-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]"
+        ></span>
+        Front-End · EV Infra · AI Agent
+      </div>
+      <p class="mt-2 max-w-3xl text-base text-foreground-muted sm:text-lg">
+        충전 인프라 관제 CMS부터 AI Agent, 사용자 앱까지. 각 프로젝트에서 무엇이
+        문제였고, 어떻게 풀었고, 무엇이 바뀌었는지를 화면과 함께 정리했습니다.
+      </p>
+      <p class="text-xs text-foreground-muted/80">
+        개인정보·계정 정보는 마스킹했고 대부분 테스트 데이터입니다. 검색엔진에
+        노출되지 않도록 했습니다.
+      </p>
+    </section>
+
+    <section class="pt-10 pb-16">
+      <ul class="grid gap-5 sm:grid-cols-2">
+        {
+          projects.map(project => (
+            <li>
+              <div class="group relative flex h-full flex-col overflow-hidden rounded-2xl glass transition-all hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+                {project.cover ? (
+                  <div class="aspect-16/10 overflow-hidden border-b border-border bg-background/40">
+                    <img
+                      src={project.cover}
+                      alt=""
+                      loading="lazy"
+                      class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                    />
+                  </div>
+                ) : (
+                  <div class="grid aspect-16/10 grid-cols-2 gap-px border-b border-border bg-border">
+                    {project.metrics.slice(0, 4).map(m => (
+                      <div class="flex flex-col justify-center gap-1 bg-background/90 p-4">
+                        <span class="text-[11px] text-foreground-muted">
+                          {m.label}
+                        </span>
+                        <span class="font-app text-sm font-semibold text-accent">
+                          {m.before && (
+                            <span class="text-foreground-muted line-through decoration-foreground-muted/40">
+                              {m.before}
+                            </span>
+                          )}
+                          {m.before && " ➜ "}
+                          {m.after}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div class="flex flex-1 flex-col gap-3 p-6">
+                  <div class="flex items-center justify-between gap-3 font-app text-[11px] tracking-wider text-foreground-muted">
+                    <span>{project.client}</span>
+                    <span>{project.period}</span>
+                  </div>
+                  <h2 class="text-lg font-semibold text-foreground transition-colors group-hover:text-accent">
+                    {project.title}
+                  </h2>
+                  <p class="text-sm leading-relaxed text-foreground-muted">
+                    {project.summary}
+                  </p>
+                  <ul class="flex flex-wrap gap-1.5 pt-1">
+                    {project.stack.slice(0, 6).map(s => (
+                      <li class="rounded-full border border-border bg-background/40 px-2 py-0.5 text-[11px] text-foreground-muted">
+                        {s}
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href={`/portfolio/${project.slug}`}
+                    class="mt-auto inline-flex items-center gap-1 pt-2 text-xs font-semibold text-accent before:absolute before:inset-0 before:rounded-2xl before:content-['']"
+                    aria-label={`${project.title} 자세히 보기`}
+                  >
+                    자세히 보기
+                    <span
+                      aria-hidden
+                      class="transition-transform group-hover:translate-x-0.5"
+                    >
+                      ➜
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</Layout>
