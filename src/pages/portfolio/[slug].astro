@@ -7,6 +7,7 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import BackButton from "@/components/BackButton.astro";
 import PortfolioGallery from "@/components/PortfolioGallery.astro";
+import PortfolioStatus from "@/components/PortfolioStatus.astro";
 import { getCollection } from "astro:content";
 import dayjs from "dayjs";
 import { projects, type Project } from "@/data/portfolio";
@@ -45,21 +46,7 @@ const next = projects[(idx + 1) % projects.length];
       <div
         class="flex flex-wrap items-center gap-2 font-app text-[11px] tracking-wider text-foreground-muted"
       >
-        <span
-          class:list={[
-            "inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-semibold uppercase",
-            project.status === "ongoing"
-              ? "bg-accent text-background"
-              : "border border-border bg-background-elevated",
-          ]}
-        >
-          {
-            project.status === "ongoing" && (
-              <span class="size-1.5 animate-pulse rounded-full bg-red-600" />
-            )
-          }
-          {project.status === "ongoing" ? "ongoing" : "terminated"}
-        </span>
+        <PortfolioStatus status={project.status} />
         <span>{project.period}</span>
       </div>
 

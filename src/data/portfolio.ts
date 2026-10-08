@@ -35,7 +35,7 @@ export type Project = {
   period: string;
   role: string;
   team?: string;
-  status: "ongoing" | "terminated";
+  status: "ongoing" | "terminated" | "operation";
   stack: string[];
   summary: string;
   cover?: string;
@@ -196,7 +196,7 @@ export const projects: Project[] = [
     client: "아론",
     period: "2026.01 ~ 현재",
     role: "FE 리드 · 2026.03~ AI 산출물 기능/디자인 QA 겸임",
-    status: "ongoing",
+    status: "operation",
     stack: [
       "React 19",
       "Vite",
@@ -335,7 +335,7 @@ export const projects: Project[] = [
     period: "2026.07 ~ 2026.09",
     role: "리드 — 주니어 2인 스터디·코드 리뷰, 최종 기능 디테일·디자인 QA",
     team: "FE 2 (주니어) + 리드",
-    status: "shipped",
+    status: "operation",
     stack: [
       "React Native 0.81",
       "Expo 54",
@@ -472,7 +472,7 @@ export const projects: Project[] = [
     client: "SG생활안전 × 카카오모빌리티",
     period: "2025.04 ~ 현재",
     role: "FE 리드",
-    status: "ongoing",
+    status: "operation",
     stack: [
       "React 19",
       "Vite",
