@@ -13,6 +13,7 @@ type Line =
   | { kind: "cmd"; text: string }
   | { kind: "out"; text: string }
   | { kind: "muted"; text: string }
+  | { kind: "link"; text: string; href: string }
   | { kind: "blank" };
 
 const lines: Line[] = [
@@ -35,6 +36,9 @@ const lines: Line[] = [
   { kind: "muted", text: "ALON" },
 
   { kind: "blank" },
+  { kind: "cmd", text: "open ./portfolio" },
+  { kind: "link", text: "→ projects, screens & numbers", href: "/portfolio" },
+  { kind: "blank" },
   { kind: "cmd", text: "echo $STATUS" },
   { kind: "out", text: "open to new opportunities ✦" },
   { kind: "blank" },
@@ -43,10 +47,12 @@ const lines: Line[] = [
 
 <div
   class="relative rounded-2xl border border-border bg-background-elevated p-4 font-app shadow-[0_8px_32px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:p-5"
-  aria-hidden="true"
 >
   {/* macOS traffic lights */}
-  <div class="flex items-center gap-1.5 border-b border-border pb-3">
+  <div
+    class="flex items-center gap-1.5 border-b border-border pb-3"
+    aria-hidden="true"
+  >
     <span class="size-2.5 rounded-full bg-[#ff5f57]/80"></span>
     <span class="size-2.5 rounded-full bg-[#febc2e]/80"></span>
     <span class="size-2.5 rounded-full bg-[#28c840]/80"></span>
@@ -71,6 +77,16 @@ const lines: Line[] = [
               <span class="text-foreground-muted">~</span>{" "}
               <span class="text-foreground">{line.text}</span>
             </span>
+          );
+        }
+        if (line.kind === "link") {
+          return (
+            <a
+              href={line.href}
+              class="block w-fit text-accent underline decoration-accent/40 underline-offset-4 transition-colors hover:decoration-accent"
+            >
+              {line.text}
+            </a>
           );
         }
         if (line.kind === "muted") {
