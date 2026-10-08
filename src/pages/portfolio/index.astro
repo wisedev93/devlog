@@ -7,6 +7,7 @@ import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Breadcrumb from "@/components/Breadcrumb.astro";
+import PortfolioStatus from "@/components/PortfolioStatus.astro";
 import { projects } from "@/data/portfolio";
 import { SITE } from "@/config";
 ---
@@ -80,8 +81,11 @@ import { SITE } from "@/config";
                 )}
                 <div class="flex flex-1 flex-col gap-3 p-6">
                   <div class="flex items-center justify-between gap-3 font-app text-[11px] tracking-wider text-foreground-muted">
-                    <span>{project.client}</span>
-                    <span>{project.period}</span>
+                    <span class="flex min-w-0 items-center gap-2">
+                      <PortfolioStatus status={project.status} />
+                      <span class="truncate">{project.client}</span>
+                    </span>
+                    <span class="shrink-0">{project.period}</span>
                   </div>
                   <h2 class="text-lg font-semibold text-foreground transition-colors group-hover:text-accent">
                     {project.title}
