@@ -100,7 +100,7 @@ export const projects: Project[] = [
       {
         title: "Figma ➜ 토큰 ➜ Storybook 디자인 시스템",
         body: [
-          "Figma 변수를 3계층 토큰으로 옮기고 Tailwind v4 + Base UI 위에 컴포넌트를 올렸습니다. 갈라져 있던 color token을 하나로 합치는 과정에서 타입체크·컴파일을 통과하던 UI 버그 9건을 찾아 고쳤습니다.",
+          "Figma 변수를 3계층 토큰으로 옮기고 Tailwind v4 + Base UI 위에 컴포넌트를 올렸습니다. 나눠져 있던 color token을 하나로 합치는 과정에서 타입체크·컴파일을 통과하던 UI 버그 9건을 찾아 고쳤습니다.",
           "다크 본문 대비를 7.7:1 ➜ 15.2:1로 올렸고, 컴포넌트 갤러리는 Storybook으로 이관해 단위별로 확인합니다.",
         ],
       },
