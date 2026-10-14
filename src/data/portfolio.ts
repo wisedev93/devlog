@@ -53,7 +53,7 @@ const p = (slug: string, name: string) => `/portfolio/${slug}/${name}.webp`;
 export const projects: Project[] = [
   {
     slug: "evdw",
-    title: "EVDW — AI Agent 충전 인프라 플랫폼",
+    title: "현대자동차 × 오믈렛 — AI Agent 충전 인프라 플랫폼",
     subtitle:
       "현대자동차 · 오믈렛 협업 / 아론은 충전 인프라 도메인 파트너로 참여",
     client: "현대자동차",
@@ -112,6 +112,21 @@ export const projects: Project[] = [
       },
     ],
     groups: [
+      {
+        title: "구조",
+        description:
+          "진행 중인 고객사 프로젝트라 실제 화면은 흐리게 처리했습니다. 대신 직접 설계한 구조를 그림으로 정리했습니다.",
+        shots: [
+          {
+            src: p("evdw", "arch-sdui"),
+            caption: "서버 주도 UI — LLM 답변이 화면이 되는 경로",
+          },
+          {
+            src: p("evdw", "arch-bff"),
+            caption: "OIDC + BFF — 브라우저에 토큰을 두지 않는 구조",
+          },
+        ],
+      },
       {
         title: "AI 답변 화면",
         description:
@@ -216,7 +231,7 @@ export const projects: Project[] = [
       {
         label: "화면 개발 리드타임",
         before: "BE 2일 + FE 2일",
-        after: "BE 혼자 1일 (-75%)",
+        after: "BE 혼자 1일 (팀 회고 기준)",
       },
       {
         label: "페이지 제작",
@@ -333,8 +348,8 @@ export const projects: Project[] = [
       "FE 코드 베이스를 React/TypeScript 하나로 — 배포된 상태로 코드베이스 변경",
     client: "아론",
     period: "2026.07 ~ 2026.09",
-    role: "리드 — 주니어 2인 스터디·코드 리뷰, 최종 기능 디테일·디자인 QA",
-    team: "FE 2 (주니어) + 리드",
+    role: "리드 — 개발 환경 세팅·리딩·구현 보조·코드 리뷰, 최종 기능 디테일·디자인 QA",
+    team: "BE 출신 개발자 1 (구현 전담) + 리드",
     status: "operation",
     stack: [
       "React Native 0.81",
@@ -347,12 +362,15 @@ export const projects: Project[] = [
       "Figma MCP",
     ],
     summary:
-      "Flutter 앱을 React Native로 다시 만들어 웹 CSMS와 언어·컨벤션·API 레이어 규칙을 통일하고 배포에서 자유로워졌습니다. CSMS에서 쓰던 '하네스' 방식을 그대로 가져와 주니어 2인이 화면 구현을 전담하고, 리드는 리뷰와 마지막 디테일을 맡았습니다.",
+      "Flutter 앱을 React Native로 다시 만들어 웹 CSMS와 언어·컨벤션·API 레이어 규칙을 통일하고 배포에서 자유로워졌습니다. CSMS에서 쓰던 '하네스' 방식을 그대로 가져와 BE 출신 개발자가 구현을 전담하고, 리드는 개발 환경 세팅·리뷰·마지막 디테일을 맡았습니다.",
     cover: p("chargemate-app", "cover"),
     metrics: [
       { label: "출시", after: "v2.0.0 iOS · Android" },
       { label: "충전 플로우", after: "11단계 (실패·타임아웃 분기 포함)" },
-      { label: "구현 담당", after: "주니어 2인 / 리드는 디테일" },
+      {
+        label: "구현 담당",
+        after: "BE 출신 개발자 전담 / 리드는 세팅·리뷰·디테일",
+      },
     ],
     sections: [
       {
@@ -567,11 +585,9 @@ export const projects: Project[] = [
     status: "terminated",
     stack: ["Next.js 14", "React", "TypeScript"],
     summary:
-      "관리자 페이지 초기 로딩이 느려 CS 대응이 막히던 OCPP CSMS를 Next.js 14 App Router로 옮기고, 코드 스플리팅·하이드레이션·의존성을 정리했습니다.",
+      "회사 소개·문의 페이지와 서비스를 한 코드베이스로 관리하면서, 공개 페이지 SEO와 URL 기반 다국어(i18n) 라우팅을 위해 OCPP CSMS를 CSR(React)에서 Next.js 14 App Router로 옮겼습니다. 라우트 그룹으로 나눠 공개 페이지는 정적 HTML로 S3·CloudFront(루트 도메인)에, 서비스는 서브도메인으로 따로 배포합니다. 체감 속도 문제도 있어 전환 전후를 같은 조건으로 측정했습니다.",
     metrics: [
-      { label: "Lighthouse (Mobile·4G)", before: "45", after: "75" },
-      { label: "LCP", before: "29.7s", after: "13.4s (-55%)" },
-      { label: "TBT", before: "4,100ms", after: "0~50ms" },
+      { label: "TBT (Mobile·4G)", before: "4,100ms", after: "0~50ms" },
       { label: "의존성 · 번들", after: "-39% · ~84KB 절감" },
     ],
     sections: [],
