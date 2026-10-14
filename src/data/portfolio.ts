@@ -78,7 +78,11 @@ export const projects: Project[] = [
     cover: p("evdw", "overview"),
     metrics: [
       { label: "전역 CSS", before: "1,342줄", after: "733줄" },
-      { label: "ChatApp", before: "1,468줄", after: "465줄 셸" },
+      {
+        label: "ChatApp 분할",
+        before: "1,468줄 단일 파일",
+        after: "화면 틀 + 컴포넌트·훅",
+      },
       { label: "브라우저 직접 fetch", before: "14곳", after: "0곳" },
     ],
     sections: [
