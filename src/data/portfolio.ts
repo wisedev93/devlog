@@ -228,6 +228,8 @@ export const projects: Project[] = [
       "FE 리소스가 부족해 API가 끝나도 화면을 기다리는 병목이 반복됐습니다. 모델을 바꾸는 대신 '결정할 것'을 줄이는 쪽으로 코드베이스를 표준화해, FE 경험이 없는 BE가 타입 파일만 쓰면 페이지가 나오는 구조를 만들었습니다.",
     cover: p("chargemate-csms", "station-drawer"),
     metrics: [
+      { label: "운영 규모", after: "충전소 24곳 · 충전기 94기" },
+      { label: "월 평균 충전", after: "1,200건+" },
       {
         label: "화면 개발 리드타임",
         before: "BE 2일 + FE 2일",
@@ -365,6 +367,7 @@ export const projects: Project[] = [
       "Flutter 앱을 React Native로 다시 만들어 웹 CSMS와 언어·컨벤션·API 레이어 규칙을 통일하고 배포에서 자유로워졌습니다. CSMS에서 쓰던 '하네스' 방식을 그대로 가져와 BE 출신 개발자가 구현을 전담하고, 리드는 개발 환경 세팅·리뷰·마지막 디테일을 맡았습니다.",
     cover: p("chargemate-app", "cover"),
     metrics: [
+      { label: "사용자", after: "400~500명 · DAU 40~50" },
       { label: "출시", after: "v2.0.0 iOS · Android" },
       { label: "충전 플로우", after: "11단계 (실패·타임아웃 분기 포함)" },
       {
@@ -489,7 +492,7 @@ export const projects: Project[] = [
     subtitle: "3사 협업 SaaS형 CSMS — 충전 인프라 + 유저·결제 연동",
     client: "SG생활안전 × 카카오모빌리티",
     period: "2025.04 ~ 현재",
-    role: "FE 리드",
+    role: "FE 리드 · 유지보수 · 운영 · 신규 개발",
     status: "operation",
     stack: [
       "React 19",
@@ -506,6 +509,8 @@ export const projects: Project[] = [
       "SG생활안전 충전 인프라에 카카오모빌리티 유저·결제를 연동한 멀티테넌트 CSMS입니다. RBAC 구조와 운영 화면을 만들고, 10만 줄 규모의 코드베이스 품질을 AI 하네스로 끌어올렸습니다.",
     cover: p("sg-csms", "station-detail"),
     metrics: [
+      { label: "운영 규모", after: "충전소 253곳 · 충전기 1,411기" },
+      { label: "월 평균 충전", after: "15만 건+ (카카오모빌리티 앱 포함)" },
       { label: "any", before: "328", after: "34 (-90%)" },
       { label: "테스트", before: "1 케이스", after: "48 케이스" },
       { label: "ESLint", before: "실행 불가", after: "정상" },
