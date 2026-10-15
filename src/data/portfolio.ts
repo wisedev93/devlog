@@ -351,7 +351,7 @@ export const projects: Project[] = [
         ],
       },
     ],
-    posts: ["codebase-is-harness", "factory-in-react"],
+    posts: ["codebase-is-harness", "factory-in-react", "factory-to-package"],
   },
   {
     slug: "chargemate-app",
@@ -386,7 +386,7 @@ export const projects: Project[] = [
       { label: "충전 플로우", after: "11단계 (실패·타임아웃 분기 포함)" },
       {
         label: "구현 담당",
-        after: "시니어 BE 전담 / 리드는 세팅·리뷰·디테일",
+        after: "시니어 BE 전담 / 리드는 세팅·구현 보조·리뷰·디테일",
       },
     ],
     sections: [
