@@ -11,7 +11,7 @@ tags:
   - architecture
   - performance
   - islands architecture
-description: "정적 블로그에 인터랙티브 데모 페이지 하나를 띄우면서 마주친 결정들. 왜 island였는지, 그 안에 왜 React가 아니라 Preact를 넣었는지, 그리고 그 선택의 비용이 실제로 몇 KB였는지 측정까지 정리했다."
+description: "정적 블로그에 인터랙티브 데모 페이지 하나를 띄우면서 마주친 결정들. 왜 island였는지, 그 안에 왜 React가 아니라 Preact를 넣었는지, 그리고 비용은 실제로 몇 KB였는지 측정까지 정리했습니다."
 ---
 
 이전 글([다음 버튼이 죽어 있던 이유](/posts/silent-form-validation))을 쓰면서 욕심이 하나 생겼습니다. 글에서 다루는 폼을 독자가 직접 만져보게 하고 싶었어요. zod의 검증 결과 객체에 `secondary.N` 같은 인덱스 path가 박힌다는 사실은 글로 설명하는 것보다 라이브로 보여주는 게 훨씬 강력하다고 봤거든요.

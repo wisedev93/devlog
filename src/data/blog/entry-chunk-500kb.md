@@ -13,7 +13,7 @@ tags:
   - rollup
   - vite
   - measurement
-description: "Vite의 'chunks larger than 500 kB' 경고를 따라가 manualChunks로 vendor 청크를 쪼갰더니, 첫 로드가 오히려 44KB 늘었다. 쪼개기의 효과(캐시 무효화 -27%)와 한계(첫 로드), 지연의 효과를 네 가지 빌드 구성으로 실측해 가른 기록."
+description: "Vite의 'chunks larger than 500 kB' 경고를 따라가 manualChunks로 vendor 청크를 쪼갰더니, 첫 로드가 오히려 44KB 늘었습니다. 쪼개기의 효과(캐시 무효화 -27%)와 한계(첫 로드), 지연의 효과를 네 가지 빌드 구성으로 실측해 가른 기록."
 ---
 
 [지난 글](/posts/sentry-bundle-cost)에서 Sentry의 번들 청구서를 계산하던 날, 빌드 로그 맨 아래에 이런 줄이 있었습니다.
