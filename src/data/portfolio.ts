@@ -52,8 +52,8 @@ const p = (slug: string, name: string) => `/portfolio/${slug}/${name}.webp`;
 
 export const projects: Project[] = [
   {
-    slug: "evdw",
-    title: "현대자동차 × 오믈렛 — AI Agent 충전 인프라 플랫폼",
+    slug: "hdax",
+    title: "현대자동차 충전 인프라 AX 플랫폼",
     subtitle:
       "현대자동차 · 오믈렛 협업 / 아론은 충전 인프라 도메인 파트너로 참여",
     client: "현대자동차",
@@ -75,7 +75,7 @@ export const projects: Project[] = [
     ],
     summary:
       "충전 실패 이력 분석부터 신규 입지 분석까지, 운영자가 자연어로 묻고 AI Agent가 차트·지도·표로 답하는 충전 인프라 CMS입니다. 답변 화면, 관제 지도, 디자인 시스템, 인증 구조를 맡았습니다.",
-    cover: p("evdw", "overview"),
+    cover: p("hdax", "overview"),
     metrics: [
       { label: "전역 CSS", before: "1,342줄", after: "733줄" },
       {
@@ -123,11 +123,11 @@ export const projects: Project[] = [
           "진행 중인 고객사 프로젝트라 실제 화면은 흐리게 처리했습니다. 대신 직접 설계한 구조를 그림으로 정리했습니다.",
         shots: [
           {
-            src: p("evdw", "arch-sdui"),
+            src: p("hdax", "arch-sdui"),
             caption: "서버 주도 UI — LLM 답변이 화면이 되는 경로",
           },
           {
-            src: p("evdw", "arch-bff"),
+            src: p("hdax", "arch-bff"),
             caption: "OIDC + BFF — 브라우저에 토큰을 두지 않는 구조",
           },
         ],
@@ -137,49 +137,49 @@ export const projects: Project[] = [
         description:
           "자연어 질문 ➜ 도구 실행 ➜ 차트·표·지도·다이어그램으로 응답",
         shots: [
-          { src: p("evdw", "overview"), caption: "채팅 + 전국 관제 지도" },
+          { src: p("hdax", "overview"), caption: "채팅 + 전국 관제 지도" },
           {
-            src: p("evdw", "streaming"),
+            src: p("hdax", "streaming"),
             caption: "스트리밍 중 — 블록 자리표시자와 중지 버튼",
           },
-          { src: p("evdw", "answer-chart"), caption: "답변 속 막대 차트 + 표" },
-          { src: p("evdw", "answer-pie"), caption: "답변 속 파이 차트" },
+          { src: p("hdax", "answer-chart"), caption: "답변 속 막대 차트 + 표" },
+          { src: p("hdax", "answer-pie"), caption: "답변 속 파이 차트" },
           {
-            src: p("evdw", "answer-map"),
+            src: p("hdax", "answer-map"),
             caption: "신규 입지 후보 — 답변 속 네이버 지도",
           },
           {
-            src: p("evdw", "answer-mermaid"),
+            src: p("hdax", "answer-mermaid"),
             caption: "충전 실패 처리 흐름 — Mermaid 시퀀스",
           },
           {
-            src: p("evdw", "answer-choices"),
+            src: p("hdax", "answer-choices"),
             caption: "선택지 버튼으로 되묻기",
           },
-          { src: p("evdw", "thinking"), caption: "응답 대기 상태" },
+          { src: p("hdax", "thinking"), caption: "응답 대기 상태" },
         ],
       },
       {
         title: "대시보드 · 관제 지도",
         shots: [
           {
-            src: p("evdw", "dashboard"),
+            src: p("hdax", "dashboard"),
             caption: "답변에서 고정한 카드로 만든 커스텀 대시보드",
           },
           {
-            src: p("evdw", "dashboard-dark"),
+            src: p("hdax", "dashboard-dark"),
             caption: "커스텀 대시보드 — 다크",
           },
           {
-            src: p("evdw", "map-nationwide"),
+            src: p("hdax", "map-nationwide"),
             caption: "전국 — H3 집계 클러스터",
           },
           {
-            src: p("evdw", "map-seoul"),
+            src: p("hdax", "map-seoul"),
             caption: "수도권 — 줌에 따라 해상도 전환",
           },
           {
-            src: p("evdw", "map-street"),
+            src: p("hdax", "map-street"),
             caption: "거리 단위 — 충전소별 마커",
           },
         ],
@@ -188,22 +188,22 @@ export const projects: Project[] = [
         title: "디자인 시스템 · 설정",
         shots: [
           {
-            src: p("evdw", "sb-tokens"),
+            src: p("hdax", "sb-tokens"),
             caption: "Storybook — 시맨틱 컬러 토큰",
           },
           {
-            src: p("evdw", "sb-button"),
+            src: p("hdax", "sb-button"),
             caption: "Storybook — Button variant × state",
           },
-          { src: p("evdw", "sb-charts"), caption: "Storybook — 차트 갤러리" },
+          { src: p("hdax", "sb-charts"), caption: "Storybook — 차트 갤러리" },
           {
-            src: p("evdw", "sb-fields"),
+            src: p("hdax", "sb-fields"),
             caption: "Storybook — 입력 필드 상태",
           },
-          { src: p("evdw", "sb-errors"), caption: "Storybook — 에러 카드" },
-          { src: p("evdw", "overview-dark"), caption: "다크 테마" },
-          { src: p("evdw", "settings"), caption: "설정 모달 — 테마" },
-          { src: p("evdw", "session-search"), caption: "세션 검색 (⌘K)" },
+          { src: p("hdax", "sb-errors"), caption: "Storybook — 에러 카드" },
+          { src: p("hdax", "overview-dark"), caption: "다크 테마" },
+          { src: p("hdax", "settings"), caption: "설정 모달 — 테마" },
+          { src: p("hdax", "session-search"), caption: "세션 검색 (⌘K)" },
         ],
       },
     ],
