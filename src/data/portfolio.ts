@@ -375,7 +375,7 @@ export const projects: Project[] = [
       "Mixpanel",
     ],
     summary:
-      "Flutter 앱을 React Native로 다시 만들어 웹 CSMS와 언어·컨벤션·API 레이어 규칙을 통일하고 배포에서 자유로워졌습니다. CSMS에서 쓰던 '하네스' 방식을 그대로 가져와 FE를 몰랐던 시니어 BE 개발자가 구현을 전담하고, 리드는 개발 환경 세팅·리뷰·마지막 디테일을 맡았습니다.",
+      "Flutter 앱을 React Native로 다시 만들어 웹 CSMS와 언어·컨벤션·API 레이어 규칙을 통일하고 배포에서 자유로워졌습니다. CSMS에서 쓰던 '하네스' 방식을 그대로 가져와 FE를 몰랐던 시니어 BE 개발자가 구현하고, 리드는 개발 환경 세팅·리뷰·마지막 디테일을 맡았습니다.",
     cover: p("chargemate-app", "cover"),
     metrics: [
       {
