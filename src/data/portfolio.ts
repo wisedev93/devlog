@@ -116,6 +116,7 @@ export const projects: Project[] = [
         ],
       },
     ],
+    posts: ["streaming-render-flicker"],
     groups: [
       {
         title: "구조",

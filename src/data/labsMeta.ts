@@ -24,6 +24,16 @@ export type LabMeta = {
 
 export const labs: LabMeta[] = [
   {
+    slug: "streaming-render",
+    title: "Streaming render",
+    summary:
+      "같은 가짜 LLM 스트림을 두 말풍선에 흘려, 조각마다 그리는 흔한 구현과 기법 네 가지(50ms 코얼레싱, 새 글자만 페이드인, 닫히지 않은 블록 자리표시자, 멈춘 구간 표시)를 나란히 비교하는 데모. 렌더 횟수와 반쪽 차트가 실패 화면으로 보인 횟수를 직접 셉니다.",
+    tags: ["llm", "streaming", "rendering", "ux"],
+    post: "/posts/streaming-render-flicker",
+    pubDate: new Date("2026-10-15T12:00:00+09:00"),
+    status: "live",
+  },
+  {
     slug: "react-compiler-toggle",
     title: "React Compiler toggle",
     summary:
