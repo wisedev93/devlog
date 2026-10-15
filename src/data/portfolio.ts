@@ -515,7 +515,7 @@ export const projects: Project[] = [
     subtitle: "3사 협업 SaaS형 CSMS — 충전 인프라 + 유저·결제 연동",
     client: "SG생활안전 × 카카오모빌리티",
     period: "2025.04 ~ 현재",
-    role: "FE 리드 (사내 FE 2명 + 외부 프리랜서) · 유지보수 · 운영 · 신규 개발",
+    role: "FE 리드 (당시 사내 FE 2명 + 외부 프리랜서) · 유지보수 · 운영 · 신규 개발",
     status: "operation",
     stack: [
       "React 19",
