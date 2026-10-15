@@ -230,7 +230,7 @@ export const projects: Project[] = [
       "OCPP 1.6",
     ],
     summary:
-      "FE 리소스가 부족해 API가 끝나도 화면을 기다리는 병목이 반복됐습니다. 모델을 바꾸는 대신 '결정할 것'을 줄이는 쪽으로 코드베이스를 표준화해, FE 경험이 없는 BE가 타입 파일만 쓰면 페이지가 나오는 구조를 만들었습니다.",
+      "FE 리소스가 부족해 API가 끝나도 화면을 기다리는 병목이 반복됐습니다. 모델을 바꾸는 대신 '결정할 것'을 줄이는 쪽으로 코드베이스를 표준화해, FE 경험이 거의 없는 BE 개발자도 타입 파일만 쓰면 페이지가 나오는 구조를 만들었습니다.",
     cover: p("chargemate-csms", "station-drawer"),
     metrics: [
       { label: "운영 규모", after: "충전소 24곳 · 충전기 94기" },
@@ -251,7 +251,10 @@ export const projects: Project[] = [
         after: "59줄",
       },
       { label: "공용 컴포넌트", before: "17개", after: "46개" },
-      { label: "BE 출신 팀원의 신규 페이지", after: "11개 중 9개가 같은 구조" },
+      {
+        label: "두 달간 신규 페이지 (BE 경력 팀원 작성)",
+        after: "11개 중 9개가 같은 구조",
+      },
       { label: "동시 담당 프로젝트", after: "4개" },
     ],
     sections: [
@@ -358,7 +361,7 @@ export const projects: Project[] = [
     client: "아론",
     period: "2026.07 ~ 2026.09",
     role: "리드 — 전환 판단·개발 환경 세팅·리딩·구현 보조·코드 리뷰, 최종 기능 디테일·디자인 QA",
-    team: "BE 출신 개발자 1 (구현 전담) + 리드",
+    team: "FE를 몰랐던 시니어 BE 1 (구현 전담) + 리드",
     status: "operation",
     stack: [
       "React Native 0.81",
@@ -372,18 +375,18 @@ export const projects: Project[] = [
       "Mixpanel",
     ],
     summary:
-      "Flutter 앱을 React Native로 다시 만들어 웹 CSMS와 언어·컨벤션·API 레이어 규칙을 통일하고 배포에서 자유로워졌습니다. CSMS에서 쓰던 '하네스' 방식을 그대로 가져와 BE 출신 개발자가 구현을 전담하고, 리드는 개발 환경 세팅·리뷰·마지막 디테일을 맡았습니다.",
+      "Flutter 앱을 React Native로 다시 만들어 웹 CSMS와 언어·컨벤션·API 레이어 규칙을 통일하고 배포에서 자유로워졌습니다. CSMS에서 쓰던 '하네스' 방식을 그대로 가져와 FE를 몰랐던 시니어 BE 개발자가 구현을 전담하고, 리드는 개발 환경 세팅·리뷰·마지막 디테일을 맡았습니다.",
     cover: p("chargemate-app", "cover"),
     metrics: [
       {
         label: "사용자",
-        after: "누적 가입 약 1,500명 · 활성 400~500명 · DAU 40~50",
+        after: "누적 가입 약 1,500명 · MAU 400~500명 · DAU 40~50",
       },
       { label: "출시", after: "v2.0.0 iOS · Android" },
       { label: "충전 플로우", after: "11단계 (실패·타임아웃 분기 포함)" },
       {
         label: "구현 담당",
-        after: "BE 출신 개발자 전담 / 리드는 세팅·리뷰·디테일",
+        after: "시니어 BE 전담 / 리드는 세팅·리뷰·디테일",
       },
     ],
     sections: [
@@ -512,7 +515,7 @@ export const projects: Project[] = [
     subtitle: "3사 협업 SaaS형 CSMS — 충전 인프라 + 유저·결제 연동",
     client: "SG생활안전 × 카카오모빌리티",
     period: "2025.04 ~ 현재",
-    role: "FE 리드 · 유지보수 · 운영 · 신규 개발",
+    role: "FE 리드 (사내 FE 2명 + 외부 프리랜서) · 유지보수 · 운영 · 신규 개발",
     status: "operation",
     stack: [
       "React 19",
