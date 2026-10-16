@@ -53,10 +53,10 @@ const p = (slug: string, name: string) => `/portfolio/${slug}/${name}.webp`;
 export const projects: Project[] = [
   {
     slug: "hdax",
-    title: "현대자동차 충전 인프라 AX 플랫폼",
+    title: "모 대기업 충전 인프라 AX 플랫폼",
     subtitle:
-      "현대자동차 · 오믈렛 협업 / 아론은 충전 인프라 도메인 파트너로 참여",
-    client: "현대자동차",
+      "모 대기업 · AI Agent 기업 협업 / 아론은 충전 인프라 도메인 파트너로 참여",
+    client: "모 대기업",
     period: "2026.08 ~ 현재",
     role: "웹 프론트엔드 (디자인 시스템 · 채팅 · 지도 · 인증/BFF)",
     status: "ongoing",
